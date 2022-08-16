@@ -1,0 +1,22 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{00B935CD-4919-F303-43FB-D59B5C2DDDA6}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "FirstPersonShooter",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		}
+	]
+}

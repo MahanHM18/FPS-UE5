@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "FirstPersonShooter",
+			"Path": "C:\\Users\\HOME\\Documents\\FPS-UE5\\FirstPersonShooter\\Source\\FirstPersonShooter.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "FirstPersonShooterEditor",
+			"Path": "C:\\Users\\HOME\\Documents\\FPS-UE5\\FirstPersonShooter\\Source\\FirstPersonShooterEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
