@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Gun.h"
 #include "GameFramework/Character.h"
 #include "FPSCharacter.generated.h"
-
 
 UCLASS()
 class FIRSTPERSONSHOOTER_API AFPSCharacter : public ACharacter
@@ -41,6 +41,13 @@ protected:
 	void Reload();
 
 	void ReloadFinish();
+
+	void SwitchGunWithKeyboard();
+
+	void SwitchGun(int Index);
+	void SwitchWithScroller(float Value);
+
+	void ThrowGrenade();
 public:
 
 	// Called every frame
@@ -54,7 +61,6 @@ private:
 		class USpringArmComponent* CameraBoom;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* CameraFollow;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USkeletalMeshComponent* HandMesh;
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
@@ -68,12 +74,6 @@ private:
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Aiming, meta = (AllowPrivateAccess = "true"))
 		float AimInterpSpeed;
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class UAnimMontage* FireMontage;
-	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class UAnimMontage* FireAimMontage;
-	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class UAnimMontage* ReloadMontage;
-	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 		FTimerHandle Handle;
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 		class UParticleSystem* MuzzleFlash;
@@ -85,13 +85,29 @@ private:
 		class UMaterialInterface* Decal;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* MagMesh;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		class AGun* GunBase;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<class UUserWidget> PlayerWidgetClass;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
 		UUserWidget* PlayerWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+		TArray<TSubclassOf<AGun>> GunClasses;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* GunMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+		EGunType CurrentGunType;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+		TArray<AGun*> Guns;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+		int CurrentGun;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<class AGrenade> GrenadeActor;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
+		FVector GrenadeVector;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
+		float GrenadeSpeed;
+	
+	
 	float MainDeltaTime;
 
 	bool IsAiming;
@@ -104,11 +120,15 @@ private:
 
 	APlayerController* PlayerController;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UChildActorComponent* Gun;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UChildActorComponent* Pistol;
-public:
 
+public:
 	FORCEINLINE bool GetAiming() { return IsAiming; }
+
+	UFUNCTION(BlueprintCallable)
+		FORCEINLINE int GetCurrentAmmo()const { return Guns[CurrentGun]->GetCurrentAmmo(); }
+
+	UFUNCTION(BlueprintCallable)
+		FORCEINLINE int GetCurrentMag() const { return Guns[CurrentGun]->GetCurrentMag(); }
+
+	FORCEINLINE EGunType GetGunTpye() { return CurrentGunType; }
 };

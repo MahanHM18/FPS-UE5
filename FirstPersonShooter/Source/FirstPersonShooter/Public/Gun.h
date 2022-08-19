@@ -6,6 +6,16 @@
 #include "GameFramework/Actor.h"
 #include "Gun.generated.h"
 
+
+UENUM(BlueprintType)
+enum class EGunType : uint8
+{
+	Rifle = 0 UMETA(DisplayName = "Rifle"),
+	Pistol = 1 UMETA(DisplayName = "Pistol")
+
+};
+
+
 UCLASS()
 class FIRSTPERSONSHOOTER_API AGun : public AActor
 {
@@ -22,6 +32,11 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		int CurrentAmmo;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		int CurrentMag;
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* GunMesh;
@@ -36,26 +51,35 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		int MaxMag;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		int CurrentAmmo;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		int CurrentMag;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		float ReloadingTime;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		EGunType GunType;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		class UAnimMontage* FireMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		class UAnimMontage* AimFireMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		class UAnimMontage* ReloadMontage;
+
 public:
-	FORCEINLINE UStaticMeshComponent* GetGunMesh() { return GunMesh; }
-	FORCEINLINE UStaticMesh* GetMagMesh() { return MagMesh; }
 
-	FORCEINLINE USceneComponent* GetFirePoint() { return FirePoint; }
+	FORCEINLINE UStaticMesh* GetGunMesh() const { return GunMesh->GetStaticMesh(); }
+	FORCEINLINE UStaticMesh* GetMagMesh() const { return MagMesh; }
 
-	FORCEINLINE float GetFireRate() { return FireRate; }
+	FORCEINLINE USceneComponent* GetFirePoint()const { return FirePoint; }
 
-	FORCEINLINE int GetMaxAmmo() { return MaxAmmo; }
-	FORCEINLINE int GetMaxMag() { return MaxMag; }
+	FORCEINLINE float GetFireRate()const { return FireRate; }
 
-	FORCEINLINE int GetCurrentAmmo() { return CurrentAmmo; }
-	FORCEINLINE int GetCurrentMag() { return CurrentMag; }
+	FORCEINLINE int GetMaxAmmo() const { return MaxAmmo; }
+	FORCEINLINE int GetMaxMag() const { return MaxMag; }
+
+
+	FORCEINLINE int GetCurrentAmmo() const { return CurrentAmmo; }
+
+	FORCEINLINE int GetCurrentMag()const { return CurrentMag; }
 
 
 	FORCEINLINE int DecnreaseAmmo() { return CurrentAmmo--; }
@@ -64,6 +88,14 @@ public:
 
 	FORCEINLINE int DecnreaseMag() { return CurrentMag--; }
 
-	FORCEINLINE float GetReloadingTime() { return ReloadingTime; }
+	FORCEINLINE float GetReloadingTime() const { return ReloadingTime; }
+
+
+	FORCEINLINE EGunType GetGun() const { return GunType; }
+
+	FORCEINLINE UAnimMontage* GetFireMontage() const { return FireMontage; }
+	FORCEINLINE UAnimMontage* GetAimFireMontage() const { return AimFireMontage; }
+	FORCEINLINE UAnimMontage* GetReloadMontage() const { return ReloadMontage; }
+
 
 };

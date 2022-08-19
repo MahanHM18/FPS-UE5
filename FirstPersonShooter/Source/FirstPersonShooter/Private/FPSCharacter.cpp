@@ -15,6 +15,10 @@
 #include "Gun.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
+#include "Gun.h"
+#include "Engine/World.h"
+#include "Grenade.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
 AFPSCharacter::AFPSCharacter() :
@@ -41,13 +45,10 @@ AFPSCharacter::AFPSCharacter() :
 	HandMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("HandMesh"));
 	HandMesh->SetupAttachment(CameraFollow);
 	HandMesh->SetRelativeLocation(FVector(48.0, 0.f, -13.f));
+	HandMesh->CastShadow = false;
 
-	Gun = CreateDefaultSubobject<UChildActorComponent>(TEXT("Gun"));
-	Gun->SetupAttachment(HandMesh, FName("Weapon_Position"));
-
-	Pistol = CreateDefaultSubobject<UChildActorComponent>(TEXT("Pistol"));
-	Pistol->SetupAttachment(HandMesh, FName("Weapon_Position"));
-
+	//GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
+	//GunMesh->SetupAttachment(HandMesh, "Weapon_Position");
 
 	MagMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MagMesh"));
 	MagMesh->SetupAttachment(HandMesh, "Mag_Position");
@@ -56,6 +57,10 @@ AFPSCharacter::AFPSCharacter() :
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
+
+
+
+
 
 
 }
@@ -71,12 +76,31 @@ void AFPSCharacter::BeginPlay()
 		PlayerWidget->AddToViewport();
 	}
 
-	GunBase = Cast<AGun>(Gun->GetChildActor());
-	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Lol with %s"), *GunBase->GetName()));
-
-	MagMesh->SetStaticMesh(GunBase->GetMagMesh());
 
 	PlayerController = GetWorld()->GetFirstPlayerController();
+
+
+
+	for (int i = 0; i < GunClasses.Num(); i++)
+	{
+
+		AGun* Base = GetWorld()->SpawnActor<AGun>(GunClasses[i]);
+		Guns.Add(Base);
+		Base->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepRelativeTransform, "Weapon_Position");
+		Base->SetOwner(this);
+	}
+
+	for (int i = 0; i < Guns.Num(); i++)
+	{
+		Guns[i]->SetActorHiddenInGame(true);
+	}
+
+	CurrentGun = 0;
+	Guns[CurrentGun]->SetActorHiddenInGame(false);
+	CurrentGunType = Guns[CurrentGun]->GetGun();
+
+	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
+	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
 }
 void AFPSCharacter::Tick(float DeltaTime)
 {
@@ -97,10 +121,8 @@ void AFPSCharacter::Tick(float DeltaTime)
 	{
 		CameraFollow->SetRelativeRotation(FMath::RInterpTo(CameraFollow->GetRelativeRotation(), FRotator(0, 0, 0), DeltaTime, 3));
 	}
-	
 
-	if (PlayerController->WasInputKeyJustPressed(EKeys::E))
-		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("LOL")));
+	SwitchGunWithKeyboard();
 }
 
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -114,6 +136,7 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAxis(FName("LookUp"), this, &AFPSCharacter::LookUp);
 	PlayerInputComponent->BindAxis(FName("LookRight"), this, &AFPSCharacter::LookRight);
+	PlayerInputComponent->BindAxis(FName("ChangeGun"), this, &AFPSCharacter::SwitchWithScroller);
 
 	PlayerInputComponent->BindAction(FName("Run"), IE_Pressed, this, &AFPSCharacter::RunButtonPressed);
 	PlayerInputComponent->BindAction(FName("Run"), IE_Released, this, &AFPSCharacter::RunButtonReleased);
@@ -129,6 +152,8 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction(FName("Reload"), IE_Pressed, this, &AFPSCharacter::Reload);
 
+
+	PlayerInputComponent->BindAction(FName("ThrowGrenade"), IE_Pressed, this, &AFPSCharacter::ThrowGrenade);
 
 }
 
@@ -181,11 +206,14 @@ void AFPSCharacter::AimButtonReleased()
 
 void AFPSCharacter::FireButtonPressed()
 {
-	if (!Gun->GetChildActor())
-		return;
+
 	Fire();
-	GetWorldTimerManager().SetTimer(Handle, this, &AFPSCharacter::Fire, GunBase->GetFireRate(), true);
 	IsShooting = true;
+
+	if (CurrentGunType == EGunType::Pistol)
+		return;
+	GetWorldTimerManager().SetTimer(Handle, this, &AFPSCharacter::Fire, Guns[CurrentGun]->GetFireRate(), true);
+	
 }
 
 void AFPSCharacter::FireButtonReleased()
@@ -196,26 +224,32 @@ void AFPSCharacter::FireButtonReleased()
 
 void AFPSCharacter::Fire()
 {
-	GunBase->DecnreaseAmmo();
 
-	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, GunBase->GetFirePoint()->GetComponentLocation());
+	if (Guns[CurrentGun]->GetCurrentAmmo() <= 0)
+		return;
+
+	Guns[CurrentGun]->DecnreaseAmmo();
+	FTransform FireTransform;
+	FireTransform.SetLocation(Guns[CurrentGun]->GetFirePoint()->GetComponentLocation());
+	FireTransform.SetRotation(Guns[CurrentGun]->GetFirePoint()->GetComponentQuat());
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, FireTransform);
 	UGameplayStatics::PlaySound2D(this, FireSound);
 
 	UAnimInstance* AnimInstance = HandMesh->GetAnimInstance();
 	if (AnimInstance)
 	{
 		if (IsAiming)
-			AnimInstance->Montage_Play(FireAimMontage);
+			AnimInstance->Montage_Play(Guns[CurrentGun]->GetAimFireMontage());
 		else if (!IsAiming)
-			AnimInstance->Montage_Play(FireMontage);
+			AnimInstance->Montage_Play(Guns[CurrentGun]->GetFireMontage());
 	}
 
 	Recoil();
 
 	FHitResult Hit;
 
-	FVector StartPoint = CameraFollow->GetComponentLocation();
-	FVector Forward = CameraFollow->GetForwardVector();
+	FVector StartPoint = CameraFollow->GetComponentLocation() + FVector(0,0,-0.05f);
+	FVector Forward = CameraFollow->GetForwardVector() + FVector(0, 0, -0.05f);
 	FVector EndPoint = StartPoint + Forward * 5000;
 
 	GetWorld()->LineTraceSingleByChannel(Hit, StartPoint, EndPoint, ECollisionChannel::ECC_Visibility);
@@ -244,6 +278,8 @@ void AFPSCharacter::Reload()
 	if (IsReloading)
 		return;
 
+	FTimerHandle ReloadTimeHandle;
+	GetWorldTimerManager().SetTimer(ReloadTimeHandle, this, &AFPSCharacter::ReloadFinish, Guns[CurrentGun]->GetReloadingTime(), false);
 	UGameplayStatics::PlaySound2D(this, ReloadSound);
 
 	IsReloading = true;
@@ -251,12 +287,9 @@ void AFPSCharacter::Reload()
 	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Reloading")));
 
 	UAnimInstance* Anim = HandMesh->GetAnimInstance();
-	if (ReloadMontage)
-		Anim->Montage_Play(ReloadMontage);
+	if (Guns[CurrentGun]->GetReloadMontage())
+		Anim->Montage_Play(Guns[CurrentGun]->GetReloadMontage());
 
-	FTimerHandle ReloadTimeHandle;
-
-	GetWorldTimerManager().SetTimer(ReloadTimeHandle,this,&AFPSCharacter::ReloadFinish,GunBase->GetReloadingTime(), false);
 
 }
 
@@ -264,6 +297,54 @@ void AFPSCharacter::ReloadFinish()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Reload Finish")));
 	IsReloading = false;
-	GunBase->DecnreaseMag();
-	GunBase->SetAmmo(GunBase->GetMaxAmmo());
+	Guns[CurrentGun]->DecnreaseMag();
+	Guns[CurrentGun]->SetAmmo(Guns[CurrentGun]->GetMaxAmmo());
 }
+
+void AFPSCharacter::SwitchGunWithKeyboard()
+{
+	if (PlayerController->WasInputKeyJustPressed(EKeys::One))
+	{
+		SwitchGun(0);
+	}
+	if (PlayerController->WasInputKeyJustPressed(EKeys::Two))
+		SwitchGun(1);
+
+
+}
+
+void AFPSCharacter::SwitchGun(int Index)
+{
+	for (int i = 0; i < Guns.Num(); i++)
+	{
+		Guns[i]->SetActorHiddenInGame(true);
+	}
+
+	CurrentGun = Index;
+	Guns[CurrentGun]->SetActorHiddenInGame(false);
+	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
+	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
+	CurrentGunType = Guns[CurrentGun]->GetGun();
+}
+
+void AFPSCharacter::SwitchWithScroller(float Value)
+{
+	CurrentGun += Value;
+
+	if (CurrentGun < 0)
+		CurrentGun = Guns.Num() - 1;
+	if (CurrentGun >= Guns.Num())
+		CurrentGun = 0;
+
+	SwitchGun(CurrentGun);
+}
+
+void AFPSCharacter::ThrowGrenade()
+{
+	if (GrenadeActor == nullptr)
+		return;
+	AGrenade* Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeActor);
+	Grenade->SetActorLocation(CameraFollow->GetComponentLocation() + GrenadeVector);
+	Grenade->GetProjectileMovement()->Velocity = CameraFollow->GetForwardVector() * GrenadeSpeed;
+}
+

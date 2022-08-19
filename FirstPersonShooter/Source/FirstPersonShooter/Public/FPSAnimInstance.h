@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Gun.h"
 #include "FPSAnimInstance.generated.h"
 
 /**
@@ -16,7 +17,7 @@ class FIRSTPERSONSHOOTER_API UFPSAnimInstance : public UAnimInstance
 
 protected:
 	UFUNCTION(BlueprintCallable)
-		void UpdateAnimInstance(float DeltaTime);
+		 void UpdateAnimInstance(float DeltaTime);
 private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
@@ -25,4 +26,6 @@ private:
 		class AFPSCharacter* Character;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		bool bIsAiming;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		EGunType GunType;
 };

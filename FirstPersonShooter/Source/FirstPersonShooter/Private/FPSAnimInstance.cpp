@@ -17,5 +17,10 @@ void UFPSAnimInstance::UpdateAnimInstance(float DeltaTime)
 		Speed = Velocity.Size();
 
 		bIsAiming = Character->GetAiming();
+	
+		GunType = Character->GetGunTpye();
+	
+	
 	}
+
 }
