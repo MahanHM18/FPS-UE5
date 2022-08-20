@@ -89,7 +89,8 @@ private:
 	class UStaticMeshComponent* MagMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
-		TSubclassOf<class UUserWidget> PlayerWidgetClass;
+	TSubclassOf<class UUserWidget> PlayerWidgetClass;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
 	UUserWidget* PlayerWidget;
 
@@ -109,10 +110,10 @@ private:
 	TSubclassOf<class AGrenade> GrenadeActor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
-		FVector GrenadeVector;
+	FVector GrenadeVector;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
-		float GrenadeSpeed;
+	float GrenadeSpeed;
 	
 
 	bool IsAiming;
