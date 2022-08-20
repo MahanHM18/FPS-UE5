@@ -124,11 +124,5 @@ private:
 public:
 	FORCEINLINE bool GetAiming() { return IsAiming; }
 
-	UFUNCTION(BlueprintCallable)
-		FORCEINLINE int GetCurrentAmmo()const { return Guns[CurrentGun]->GetCurrentAmmo(); }
-
-	UFUNCTION(BlueprintCallable)
-		FORCEINLINE int GetCurrentMag() const { return Guns[CurrentGun]->GetCurrentMag(); }
-
 	FORCEINLINE EGunType GetGunTpye() { return CurrentGunType; }
 };

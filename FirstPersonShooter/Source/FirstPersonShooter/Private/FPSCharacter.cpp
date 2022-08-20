@@ -97,7 +97,7 @@ void AFPSCharacter::BeginPlay()
 
 	CurrentGun = 0;
 	Guns[CurrentGun]->SetActorHiddenInGame(false);
-	CurrentGunType = Guns[CurrentGun]->GetGun();
+	CurrentGunType = Guns[CurrentGun]->GunType;
 
 	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
 	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
@@ -210,10 +210,12 @@ void AFPSCharacter::FireButtonPressed()
 	Fire();
 	IsShooting = true;
 
-	if (CurrentGunType == EGunType::Pistol)
-		return;
-	GetWorldTimerManager().SetTimer(Handle, this, &AFPSCharacter::Fire, Guns[CurrentGun]->GetFireRate(), true);
-	
+	if (CurrentGunType != EGunType::Pistol)
+	{
+		GetWorldTimerManager().SetTimer(Handle, this, &AFPSCharacter::Fire, Guns[CurrentGun]->FireRate, true);
+	}
+
+
 }
 
 void AFPSCharacter::FireButtonReleased()
@@ -225,42 +227,43 @@ void AFPSCharacter::FireButtonReleased()
 void AFPSCharacter::Fire()
 {
 
-	if (Guns[CurrentGun]->GetCurrentAmmo() <= 0)
-		return;
-
-	Guns[CurrentGun]->DecnreaseAmmo();
-	FTransform FireTransform;
-	FireTransform.SetLocation(Guns[CurrentGun]->GetFirePoint()->GetComponentLocation());
-	FireTransform.SetRotation(Guns[CurrentGun]->GetFirePoint()->GetComponentQuat());
-	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, FireTransform);
-	UGameplayStatics::PlaySound2D(this, FireSound);
-
-	UAnimInstance* AnimInstance = HandMesh->GetAnimInstance();
-	if (AnimInstance)
+	if (Guns[CurrentGun]->CurrentAmmo <= 0)
 	{
-		if (IsAiming)
-			AnimInstance->Montage_Play(Guns[CurrentGun]->GetAimFireMontage());
-		else if (!IsAiming)
-			AnimInstance->Montage_Play(Guns[CurrentGun]->GetFireMontage());
+		Guns[CurrentGun]->CurrentAmmo--;
+		FTransform FireTransform;
+		FireTransform.SetLocation(Guns[CurrentGun]->GetFirePoint()->GetComponentLocation());
+		FireTransform.SetRotation(Guns[CurrentGun]->GetFirePoint()->GetComponentQuat());
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, FireTransform);
+		UGameplayStatics::PlaySound2D(this, FireSound);
+
+		UAnimInstance* AnimInstance = HandMesh->GetAnimInstance();
+		if (AnimInstance)
+		{
+			if (IsAiming)
+				AnimInstance->Montage_Play(Guns[CurrentGun]->AimFireMontage);
+			else if (!IsAiming)
+				AnimInstance->Montage_Play(Guns[CurrentGun]->FireMontage);
+		}
+
+		Recoil();
+
+		FHitResult Hit;
+
+		FVector StartPoint = CameraFollow->GetComponentLocation() + FVector(0, 0, -0.05f);
+		FVector Forward = CameraFollow->GetForwardVector() + FVector(0, 0, -0.05f);
+		FVector EndPoint = StartPoint + Forward * 5000;
+
+		GetWorld()->LineTraceSingleByChannel(Hit, StartPoint, EndPoint, ECollisionChannel::ECC_Visibility);
+
+		DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Red, false, 1, 0, 1);
+
+		if (Hit.bBlockingHit)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("We are hiting %s"), *Hit.GetActor()->GetName()));
+			UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(20, 20, 20), Hit.Location, Hit.Normal.Rotation(), 10);
+		}
 	}
 
-	Recoil();
-
-	FHitResult Hit;
-
-	FVector StartPoint = CameraFollow->GetComponentLocation() + FVector(0,0,-0.05f);
-	FVector Forward = CameraFollow->GetForwardVector() + FVector(0, 0, -0.05f);
-	FVector EndPoint = StartPoint + Forward * 5000;
-
-	GetWorld()->LineTraceSingleByChannel(Hit, StartPoint, EndPoint, ECollisionChannel::ECC_Visibility);
-
-	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Red, false, 1, 0, 1);
-
-	if (Hit.bBlockingHit)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("We are hiting %s"), *Hit.GetActor()->GetName()));
-		UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(20, 20, 20), Hit.Location, Hit.Normal.Rotation(), 10);
-	}
 
 }
 
@@ -275,20 +278,22 @@ void AFPSCharacter::Recoil()
 
 void AFPSCharacter::Reload()
 {
-	if (IsReloading)
-		return;
+	if (!IsReloading)
+	{
+		FTimerHandle ReloadTimeHandle;
+		GetWorldTimerManager().SetTimer(ReloadTimeHandle, this, &AFPSCharacter::ReloadFinish, Guns[CurrentGun]->ReloadingTime, false);
+		UGameplayStatics::PlaySound2D(this, ReloadSound);
 
-	FTimerHandle ReloadTimeHandle;
-	GetWorldTimerManager().SetTimer(ReloadTimeHandle, this, &AFPSCharacter::ReloadFinish, Guns[CurrentGun]->GetReloadingTime(), false);
-	UGameplayStatics::PlaySound2D(this, ReloadSound);
+		IsReloading = true;
 
-	IsReloading = true;
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Reloading")));
 
-	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Reloading")));
+		UAnimInstance* Anim = HandMesh->GetAnimInstance();
+		if (Guns[CurrentGun]->ReloadMontage)
+			Anim->Montage_Play(Guns[CurrentGun]->ReloadMontage);
+	}
 
-	UAnimInstance* Anim = HandMesh->GetAnimInstance();
-	if (Guns[CurrentGun]->GetReloadMontage())
-		Anim->Montage_Play(Guns[CurrentGun]->GetReloadMontage());
+
 
 
 }
@@ -297,8 +302,8 @@ void AFPSCharacter::ReloadFinish()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Reload Finish")));
 	IsReloading = false;
-	Guns[CurrentGun]->DecnreaseMag();
-	Guns[CurrentGun]->SetAmmo(Guns[CurrentGun]->GetMaxAmmo());
+	Guns[CurrentGun]->CurrentMag--;
+	Guns[CurrentGun]->CurrentAmmo = Guns[CurrentGun]->MaxAmmo;
 }
 
 void AFPSCharacter::SwitchGunWithKeyboard()
@@ -324,7 +329,7 @@ void AFPSCharacter::SwitchGun(int Index)
 	Guns[CurrentGun]->SetActorHiddenInGame(false);
 	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
 	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
-	CurrentGunType = Guns[CurrentGun]->GetGun();
+	CurrentGunType = Guns[CurrentGun]->GunType;
 }
 
 void AFPSCharacter::SwitchWithScroller(float Value)
@@ -342,9 +347,11 @@ void AFPSCharacter::SwitchWithScroller(float Value)
 void AFPSCharacter::ThrowGrenade()
 {
 	if (GrenadeActor == nullptr)
-		return;
-	AGrenade* Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeActor);
-	Grenade->SetActorLocation(CameraFollow->GetComponentLocation() + GrenadeVector);
-	Grenade->GetProjectileMovement()->Velocity = CameraFollow->GetForwardVector() * GrenadeSpeed;
+	{
+		AGrenade* Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeActor);
+		Grenade->SetActorLocation(CameraFollow->GetComponentLocation() + GrenadeVector);
+		Grenade->GetProjectileMovement()->Velocity = CameraFollow->GetForwardVector() * GrenadeSpeed;
+	}
+
 }
 

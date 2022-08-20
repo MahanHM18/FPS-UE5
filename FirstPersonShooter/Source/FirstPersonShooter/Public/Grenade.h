@@ -22,8 +22,6 @@ protected:
 	void Explosion();
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* GrenadeMesh;
