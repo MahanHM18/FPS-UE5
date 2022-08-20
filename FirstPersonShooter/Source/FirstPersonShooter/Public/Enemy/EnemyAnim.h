@@ -4,28 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "Gun.h"
-#include "FPSAnimInstance.generated.h"
+#include "EnemyAnim.generated.h"
 
 /**
  *
  */
 UCLASS()
-class FIRSTPERSONSHOOTER_API UFPSAnimInstance : public UAnimInstance
+class FIRSTPERSONSHOOTER_API UEnemyAnim : public UAnimInstance
 {
 	GENERATED_BODY()
 
-protected:
+public:
+
+
+	virtual	void NativeInitializeAnimation() override;
+
 	UFUNCTION(BlueprintCallable)
-		 void UpdateAnimInstance(float DeltaTime);
-private:
+		void UpdateAnimationProperties(float DeltaTime);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 		float Speed;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class AFPSCharacter* Character;
+		class AEnemy* Enemy;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		bool bIsAiming;
+		bool bIsAir;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		EGunType GunType;
+		class APawn* Pawn;
+private:
+
 };

@@ -57,6 +57,8 @@ private:
 		class UStaticMeshComponent* GunMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		UStaticMesh* MagMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+		class UGunAbilities* GunAbilities;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		class USceneComponent* FirePoint;
 
@@ -75,7 +77,7 @@ public:
 	FORCEINLINE USceneComponent* GetFirePoint() const { return FirePoint; }
 
 
-
+	FORCEINLINE UGunAbilities* GetGunAbility() const { return GunAbilities; }
 
 
 };

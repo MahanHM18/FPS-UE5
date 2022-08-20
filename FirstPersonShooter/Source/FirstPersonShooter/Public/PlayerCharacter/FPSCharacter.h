@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Gun.h"
+#include "Weapons/Gun.h"
 #include "GameFramework/Character.h"
 #include "FPSCharacter.generated.h"
 
@@ -76,13 +76,7 @@ private:
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 		FTimerHandle Handle;
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class UParticleSystem* MuzzleFlash;
-	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class USoundBase* FireSound;
-	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 		class USoundBase* ReloadSound;
-	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class UMaterialInterface* Decal;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* MagMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
@@ -91,8 +85,6 @@ private:
 		UUserWidget* PlayerWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
 		TArray<TSubclassOf<AGun>> GunClasses;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* GunMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
 		EGunType CurrentGunType;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
@@ -107,8 +99,6 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
 		float GrenadeSpeed;
 	
-	
-	float MainDeltaTime;
 
 	bool IsAiming;
 
