@@ -29,7 +29,8 @@ AFPSCharacter::AFPSCharacter() :
 	AimFOV(60.f),
 	DefaultFOV(90.f),
 	AimInterpSpeed(5.f),
-	IsReloading(false)
+	IsReloading(false),
+	CurrentGun(0)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -77,28 +78,7 @@ void AFPSCharacter::BeginPlay()
 
 	PlayerController = GetWorld()->GetFirstPlayerController();
 
-
-
-	for (int i = 0; i < GunClasses.Num(); i++)
-	{
-
-		AGun* Base = GetWorld()->SpawnActor<AGun>(GunClasses[i]);
-		Guns.Add(Base);
-		Base->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepRelativeTransform, "Weapon_Position");
-		Base->SetOwner(this);
-	}
-
-	for (int i = 0; i < Guns.Num(); i++)
-	{
-		Guns[i]->SetActorHiddenInGame(true);
-	}
-
-	CurrentGun = 0;
-	Guns[CurrentGun]->SetActorHiddenInGame(false);
-	CurrentGunType = Guns[CurrentGun]->GunType;
-
-	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
-	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
+	BasicSetup();
 }
 void AFPSCharacter::Tick(float DeltaTime)
 {
@@ -263,7 +243,7 @@ void AFPSCharacter::SwitchGun(int Index)
 	CurrentGun = Index;
 	Guns[CurrentGun]->SetActorHiddenInGame(false);
 	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
-	CurrentGunType = Guns[CurrentGun]->GunType;
+	CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
 }
 
 void AFPSCharacter::SwitchWithScroller(float Value)
@@ -288,5 +268,31 @@ void AFPSCharacter::ThrowGrenade()
 		Grenade->GetProjectileMovement()->Velocity = CameraFollow->GetForwardVector() * GrenadeSpeed;
 	}
 
+}
+
+void AFPSCharacter::BasicSetup()
+{
+
+
+	for (int i = 0; i < GunClasses.Num(); i++)
+	{
+
+		AGun* Base = GetWorld()->SpawnActor<AGun>(GunClasses[i]);
+		Guns.Add(Base);
+		Base->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepRelativeTransform, "Weapon_Position");
+		Base->SetOwner(this);
+	}
+
+	for (int i = 0; i < Guns.Num(); i++)
+	{
+		Guns[i]->SetActorHiddenInGame(true);
+	}
+
+	CurrentGun = 0;
+	Guns[CurrentGun]->SetActorHiddenInGame(false);
+	CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
+
+	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
+	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
 }
 

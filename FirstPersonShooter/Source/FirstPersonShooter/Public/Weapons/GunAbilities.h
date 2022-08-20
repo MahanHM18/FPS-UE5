@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Weapons/Gun.h"
 #include "Components/ActorComponent.h"
 #include "GunAbilities.generated.h"
 
@@ -56,6 +57,8 @@ public:
 		float FireRate;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
 		float ReloadTime;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
+		EGunType GunType;
 
 public:
 	// Called every frame

@@ -36,11 +36,7 @@ protected:
 
 	void Fire();
 
-	void Recoil();
-
 	void Reload();
-
-	void ReloadFinish();
 
 	void SwitchGunWithKeyboard();
 
@@ -48,6 +44,8 @@ protected:
 	void SwitchWithScroller(float Value);
 
 	void ThrowGrenade();
+
+	void BasicSetup();
 public:
 
 	// Called every frame

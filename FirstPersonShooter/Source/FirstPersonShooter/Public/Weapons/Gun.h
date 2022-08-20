@@ -31,8 +31,6 @@ protected:
 
 public:
 
-
-
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* GunMesh;
@@ -42,11 +40,6 @@ private:
 		class UGunAbilities* GunAbilities;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 		class USceneComponent* FirePoint;
-
-
-
-
-
 
 
 

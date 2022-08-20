@@ -31,5 +31,5 @@ void AGun::BeginPlay()
 	
 }
 
-// Called every frame
+
 
