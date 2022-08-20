@@ -1,0 +1,32 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\source\\firstpersonshooter\\private\\weapons\\grenade.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\firstpersonshootereditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\development\\firstpersonshooter\\definitions.firstpersonshooter.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\source\\firstpersonshooter\\public\\weapons\\grenade.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\inc\\firstpersonshooter\\grenade.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\gameframework\\projectilemovementcomponent.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\gameframework\\movementcomponent.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\movementcomponent.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\projectilemovementcomponent.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\components\\boxcomponent.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\components\\shapecomponent.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\shapecomponent.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\boxcomponent.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\kismet\\gameplaystatics.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\kismet\\kismetsystemlibrary.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\coreuobject\\public\\uobject\\propertyaccessutil.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\kismetsystemlibrary.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\sound\\dialoguetypes.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\dialoguetypes.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\kismet\\gameplaystaticstypes.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\gameplaystaticstypes.generated.h",
+            "c:\\program files\\epic games\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\gameplaystatics.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

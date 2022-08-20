@@ -23,6 +23,15 @@
     <None Include="..\..\Config\DefaultGame.ini">
       <Filter>Config</Filter>
     </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Config\HoloLens">
+      <UniqueIdentifier>{4C8DD267-CDE7-336F-8602-F5F485D22BAB}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\HoloLens\HoloLensEngine.ini">
+      <Filter>Config\HoloLens</Filter>
+    </None>
     <Filter Include="Source\FirstPersonShooter">
       <UniqueIdentifier>{A8F5DBBE-1180-31F6-B13F-C32347FAA587}</UniqueIdentifier>
     </Filter>
@@ -40,6 +49,78 @@
     </ClCompile>
     <ClInclude Include="..\..\Source\FirstPersonShooter\FirstPersonShooterGameModeBase.h">
       <Filter>Source\FirstPersonShooter</Filter>
+    </ClInclude>
+    <Filter Include="Source\FirstPersonShooter\Private">
+      <UniqueIdentifier>{EFC9FA4B-5A36-3B63-A5FA-7851E7ED4027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FirstPersonShooter\Private\Enemy">
+      <UniqueIdentifier>{40A099F5-4A6C-37BB-A357-BCF80E8A3C9D}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Enemy\Enemy.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Enemy\EnemyAnim.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Enemy\EnemyAnimInstance.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Enemy</Filter>
+    </ClCompile>
+    <Filter Include="Source\FirstPersonShooter\Private\PlayerCharacter">
+      <UniqueIdentifier>{8D47B3A4-D203-38A5-94AE-D1A9B6940DB1}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\PlayerCharacter\FPSAnimInstance.cpp">
+      <Filter>Source\FirstPersonShooter\Private\PlayerCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\PlayerCharacter\FPSCharacter.cpp">
+      <Filter>Source\FirstPersonShooter\Private\PlayerCharacter</Filter>
+    </ClCompile>
+    <Filter Include="Source\FirstPersonShooter\Private\Weapons">
+      <UniqueIdentifier>{ADCC7870-6AF4-3F31-A896-E07D933F8D45}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Weapons\Grenade.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Weapons\Gun.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Weapons\GunAbilities.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Weapons</Filter>
+    </ClCompile>
+    <Filter Include="Source\FirstPersonShooter\Public">
+      <UniqueIdentifier>{90D21A02-B4BE-31E9-B68D-91D476562B5E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FirstPersonShooter\Public\Enemy">
+      <UniqueIdentifier>{E57017EB-073D-33FB-A4F4-231E91A54665}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Enemy\Enemy.h">
+      <Filter>Source\FirstPersonShooter\Public\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Enemy\EnemyAnim.h">
+      <Filter>Source\FirstPersonShooter\Public\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Enemy\EnemyAnimInstance.h">
+      <Filter>Source\FirstPersonShooter\Public\Enemy</Filter>
+    </ClInclude>
+    <Filter Include="Source\FirstPersonShooter\Public\PlayerCharacter">
+      <UniqueIdentifier>{18A8BC6C-7323-3DDE-A8F1-DBE5DFFEF56F}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\PlayerCharacter\FPSAnimInstance.h">
+      <Filter>Source\FirstPersonShooter\Public\PlayerCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\PlayerCharacter\FPSCharacter.h">
+      <Filter>Source\FirstPersonShooter\Public\PlayerCharacter</Filter>
+    </ClInclude>
+    <Filter Include="Source\FirstPersonShooter\Public\Weapons">
+      <UniqueIdentifier>{E0B54596-8D2E-3A1E-8DAB-3325ACA90A4B}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Weapons\Grenade.h">
+      <Filter>Source\FirstPersonShooter\Public\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Weapons\Gun.h">
+      <Filter>Source\FirstPersonShooter\Public\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Weapons\GunAbilities.h">
+      <Filter>Source\FirstPersonShooter\Public\Weapons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

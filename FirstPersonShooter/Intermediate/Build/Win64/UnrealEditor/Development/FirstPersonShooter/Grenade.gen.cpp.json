@@ -1,0 +1,15 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\inc\\firstpersonshooter\\grenade.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\firstpersonshootereditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\development\\firstpersonshooter\\definitions.firstpersonshooter.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\source\\firstpersonshooter\\public\\weapons\\grenade.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\inc\\firstpersonshooter\\grenade.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

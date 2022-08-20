@@ -1,0 +1,17 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\inc\\firstpersonshooter\\fpsaniminstance.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\firstpersonshootereditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\development\\firstpersonshooter\\definitions.firstpersonshooter.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\source\\firstpersonshooter\\public\\playercharacter\\fpsaniminstance.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\source\\firstpersonshooter\\public\\weapons\\gun.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\inc\\firstpersonshooter\\gun.generated.h",
+            "c:\\users\\home\\documents\\fps-ue5\\firstpersonshooter\\intermediate\\build\\win64\\unrealeditor\\inc\\firstpersonshooter\\fpsaniminstance.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
