@@ -280,7 +280,8 @@ void AFPSCharacter::SwitchWithScroller(float Value)
 
 void AFPSCharacter::ThrowGrenade()
 {
-	if (GrenadeActor == nullptr)
+	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Grenade")));
+	if (GrenadeActor)
 	{
 		AGrenade* Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeActor);
 		Grenade->SetActorLocation(CameraFollow->GetComponentLocation() + GrenadeVector);
