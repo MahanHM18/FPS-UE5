@@ -102,7 +102,7 @@ void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInst
 		if (OutHit.bBlockingHit)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("We are hiting %s"), *OutHit.GetActor()->GetName()));
-			UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(5, 5, 5), OutHit.Location, OutHit.Normal.Rotation());
+			UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(20, 20, 20), OutHit.Location, OutHit.Normal.Rotation());
 		}
 
 		HandAnimInstance->Montage_Play(IsAiming ? AimFireMontage : FireMontage);

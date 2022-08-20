@@ -13,6 +13,7 @@ AGun::AGun()
 
 	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
 	RootComponent = GunMesh;
+	GunMesh->CastShadow = false;
 
 
 	FirePoint = CreateDefaultSubobject<USceneComponent>(TEXT("FirePoint"));
@@ -27,8 +28,6 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CurrentAmmo = MaxAmmo;
-	CurrentMag = MaxMag;
 	
 }
 
