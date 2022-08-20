@@ -26,11 +26,13 @@ public:
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
-		EEnemyMovementStatus MovementStatus;
+	EEnemyMovementStatus MovementStatus;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AI)
-		class USphereComponent* AgroSphere;
+	class USphereComponent* AgroSphere;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AI)
-		class USphereComponent* CombatShpere;
+	class USphereComponent* CombatShpere;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AI)
 	class AAIController* AIController;
@@ -49,11 +51,13 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-		void OnAgroOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnAgroOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 	UFUNCTION()
-		void OnAgroOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnAgroOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 	UFUNCTION()
-		void OnCombatOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnCombatOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	void MoveToTarget(class AFPSCharacter* Player);
 

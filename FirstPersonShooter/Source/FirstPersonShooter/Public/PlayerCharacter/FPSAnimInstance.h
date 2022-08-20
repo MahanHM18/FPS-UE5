@@ -17,16 +17,21 @@ class FIRSTPERSONSHOOTER_API UFPSAnimInstance : public UAnimInstance
 public:
 	virtual	void NativeInitializeAnimation() override;
 protected:
+
 	UFUNCTION(BlueprintCallable)
-		 void UpdateAnimInstance(float DeltaTime);
+	void UpdateAnimInstance(float DeltaTime);
+
 private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-		float Speed;
+	float Speed;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class AFPSCharacter* Character;
+	class AFPSCharacter* Character;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		bool bIsAiming;
+	bool bIsAiming;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		EGunType GunType;
+	EGunType GunType;
 };

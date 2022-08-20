@@ -56,44 +56,61 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class USpringArmComponent* CameraBoom;
+	class USpringArmComponent* CameraBoom;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCameraComponent* CameraFollow;
+	class UCameraComponent* CameraFollow;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class USkeletalMeshComponent* HandMesh;
+	class USkeletalMeshComponent* HandMesh;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-		float WalkSpeed;
+	float WalkSpeed;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-		float RunSpeed;
+	float RunSpeed;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Aiming, meta = (AllowPrivateAccess = "true"))
-		float AimFOV;
+	float AimFOV;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Aiming, meta = (AllowPrivateAccess = "true"))
-		float DefaultFOV;
+	float DefaultFOV;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Aiming, meta = (AllowPrivateAccess = "true"))
-		float AimInterpSpeed;
+	float AimInterpSpeed;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		FTimerHandle Handle;
+	FTimerHandle Handle;
+
 	UPROPERTY(Editanywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class USoundBase* ReloadSound;
+	class USoundBase* ReloadSound;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* MagMesh;
+	class UStaticMeshComponent* MagMesh;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<class UUserWidget> PlayerWidgetClass;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
-		UUserWidget* PlayerWidget;
+	UUserWidget* PlayerWidget;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-		TArray<TSubclassOf<AGun>> GunClasses;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-		EGunType CurrentGunType;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-		TArray<AGun*> Guns;
+	TArray<TSubclassOf<AGun>> GunClasses;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-		int CurrentGun;
+	EGunType CurrentGunType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+	TArray<AGun*> Guns;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+	int CurrentGun;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
-		TSubclassOf<class AGrenade> GrenadeActor;
+	TSubclassOf<class AGrenade> GrenadeActor;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
 		FVector GrenadeVector;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
 		float GrenadeSpeed;
 	

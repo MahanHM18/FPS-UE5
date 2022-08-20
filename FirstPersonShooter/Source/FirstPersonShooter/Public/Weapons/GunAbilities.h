@@ -22,26 +22,31 @@ protected:
 	virtual void BeginPlay() override;
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Particle, meta = (AllowPrivateAccess = "true"))
-		UParticleSystem* MuzzleFlash;
+	UParticleSystem* MuzzleFlash;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Particle, meta = (AllowPrivateAccess = "true"))
 		UMaterialInterface* Decal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound, meta = (AllowPrivateAccess = "true"))
-		class USoundBase* FireSound;
+	class USoundBase* FireSound;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound, meta = (AllowPrivateAccess = "true"))
-		class USoundBase* ReloadSound;
+	class USoundBase* ReloadSound;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
-		class UAnimMontage* FireMontage;
+	class UAnimMontage* FireMontage;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
-		class UAnimMontage* AimFireMontage;
+	class UAnimMontage* AimFireMontage;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
-		class UAnimMontage* ReloadMontage;
+	class UAnimMontage* ReloadMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
-		int MaxAmmo;
+	int MaxAmmo;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
-		int MaxMag;
+	int MaxMag;
 
 	bool IsReloading;
 
@@ -50,15 +55,19 @@ private:
 	void ReloadFinish();
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Properties)
-		int CurrentAmmo;
+	int CurrentAmmo;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Properties)
-		int CurrentMag;
+	int CurrentMag;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
-		float FireRate;
+	float FireRate;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
-		float ReloadTime;
+	float ReloadTime;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
-		EGunType GunType;
+	EGunType GunType;
 
 public:
 	// Called every frame

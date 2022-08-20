@@ -20,16 +20,19 @@ public:
 	virtual	void NativeInitializeAnimation() override;
 
 	UFUNCTION(BlueprintCallable)
-		void UpdateAnimationProperties(float DeltaTime);
+	void UpdateAnimationProperties(float DeltaTime);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-		float Speed;
+	float Speed;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class AEnemy* Enemy;
+	class AEnemy* Enemy;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		bool bIsAir;
+	bool bIsAir;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class APawn* Pawn;
+	class APawn* Pawn;
 private:
 
 };

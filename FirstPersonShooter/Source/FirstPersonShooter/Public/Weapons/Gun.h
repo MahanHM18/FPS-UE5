@@ -10,8 +10,8 @@
 UENUM(BlueprintType)
 enum class EGunType : uint8
 {
-	Rifle = 0 UMETA(DisplayName = "Rifle"),
-	Pistol = 1 UMETA(DisplayName = "Pistol")
+	Rifle = 0	UMETA(DisplayName = "Rifle"),
+	Pistol = 1	 UMETA(DisplayName = "Pistol")
 
 };
 
@@ -33,13 +33,16 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* GunMesh;
+	class UStaticMeshComponent* GunMesh;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		UStaticMesh* MagMesh;
+	UStaticMesh* MagMesh;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		class UGunAbilities* GunAbilities;
+	class UGunAbilities* GunAbilities;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
-		class USceneComponent* FirePoint;
+	class USceneComponent* FirePoint;
 
 
 
