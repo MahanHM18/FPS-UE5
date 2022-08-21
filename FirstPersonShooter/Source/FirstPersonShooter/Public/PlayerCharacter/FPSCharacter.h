@@ -94,14 +94,12 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
 	UUserWidget* PlayerWidget;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-	TArray<TSubclassOf<AGun>> GunClasses;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
 	EGunType CurrentGunType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-	TArray<AGun*> Guns;
+	TArray<TSubclassOf<AGun>> GunClasses;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
 	int CurrentGun;
@@ -115,6 +113,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
 	float GrenadeSpeed;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+	TArray<AGun*> Guns;
 
 	bool IsAiming;
 
@@ -124,11 +124,17 @@ private:
 
 	bool IsReloading;
 
+	float MainDeltaTime;
+
 	APlayerController* PlayerController;
 
 
 public:
-	FORCEINLINE bool GetAiming() { return IsAiming; }
+	FORCEINLINE bool GetAiming() const { return IsAiming; }
 
-	FORCEINLINE EGunType GetGunTpye() { return CurrentGunType; }
+	FORCEINLINE EGunType GetGunTpye() const { return CurrentGunType; }
+	
+	FORCEINLINE AGun* GetCurrentGun() const { return Guns[CurrentGun]; }
+
+	
 };

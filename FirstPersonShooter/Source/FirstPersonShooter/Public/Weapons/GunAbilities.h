@@ -50,7 +50,6 @@ private:
 
 	bool IsReloading;
 
-	float MainDeltaTime;
 
 	void ReloadFinish();
 public:
@@ -75,7 +74,7 @@ public:
 
 	void Fire(FVector Start, FVector End, UAnimInstance* HandMesh, FVector MuzzleFlashLocation, FQuat4d MuzzleFlashQuat, bool IsAiming);
 
-	void Recoil(class UCameraComponent* Camera);
+	void Recoil(class UCameraComponent* Camera,float MainDeltaTime);
 
 	void Reload(class UAnimInstance* HandMesh);
 

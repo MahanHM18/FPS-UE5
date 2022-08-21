@@ -29,5 +29,7 @@ void UEnemyAnim::UpdateAnimationProperties(float DeltaTime)
 
 		bIsAir = Enemy->GetCharacterMovement()->IsFalling();
 
+		Status = Enemy->MovementStatus;
+
 	}
 }

@@ -29,6 +29,11 @@ void AEnemy::BeginPlay()
 	AIController = Cast<AAIController>(GetController());
 
 	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnAgroOverlapBegin);
+	AgroSphere->OnComponentEndOverlap.AddDynamic(this, &AEnemy::OnAgroOverlapEnd);
+
+
+	CombatShpere->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnCombatOverlapBegin);
+	CombatShpere->OnComponentEndOverlap.AddDynamic(this, &AEnemy::OnCombatOverlapEnd);
 }
 
 // Called every frame
@@ -43,24 +48,46 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-
-
 }
 
 void AEnemy::OnAgroOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor)
+	if (OtherActor && OtherActor->ActorHasTag(FName("Player")))
 	{
 		MoveToTarget(Cast<AFPSCharacter>(OtherActor));
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("Chasing")));
 	}
 }
 
 void AEnemy::OnAgroOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	if (OtherActor && OtherActor->ActorHasTag(FName("Player")))
+	{
+		AIController->StopMovement();
+		SetEnemyMovementStatus(EEnemyMovementStatus::EMS_Idle);
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("Stopping")));
+	}
 }
 
 void AEnemy::OnCombatOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (OtherActor && OtherActor->ActorHasTag(FName("Player")))
+	{
+		AIController->StopMovement();
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("Attakcing")));
+		SetEnemyMovementStatus(EEnemyMovementStatus::EMS_Attack);
+	}
+}
+
+void AEnemy::OnCombatOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor && OtherActor->ActorHasTag(FName("Player")))
+	{
+		MoveToTarget(Cast<AFPSCharacter>(OtherActor));
+		SetEnemyMovementStatus(EEnemyMovementStatus::EMS_Chase);
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("ChasingA")));
+
+	}
 }
 
 void AEnemy::MoveToTarget(AFPSCharacter* Player)
@@ -71,7 +98,7 @@ void AEnemy::MoveToTarget(AFPSCharacter* Player)
 	{
 		FAIMoveRequest MoveRquest;
 		MoveRquest.SetGoalActor(Player);
-		MoveRquest.SetAcceptanceRadius(5.f);
+		MoveRquest.SetAcceptanceRadius(10);
 
 		FNavPathSharedPtr Nav;
 		AIController->MoveTo(MoveRquest, &Nav);

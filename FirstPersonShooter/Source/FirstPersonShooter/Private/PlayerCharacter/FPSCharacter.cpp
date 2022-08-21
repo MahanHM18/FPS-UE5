@@ -100,6 +100,9 @@ void AFPSCharacter::Tick(float DeltaTime)
 	}
 
 	SwitchGunWithKeyboard();
+
+	MainDeltaTime = DeltaTime;
+
 }
 
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -211,7 +214,8 @@ void AFPSCharacter::Fire()
 	FVector EndPoint = StartPoint + Forward * 5000;
 
 	Guns[CurrentGun]->GetGunAbility()->Fire(StartPoint, EndPoint, AnimInstance, Guns[CurrentGun]->GetFirePoint()->GetComponentLocation(), Guns[CurrentGun]->GetFirePoint()->GetComponentQuat(), IsAiming);
-	Guns[CurrentGun]->GetGunAbility()->Recoil(CameraFollow);
+	Guns[CurrentGun]->GetGunAbility()->Recoil(CameraFollow, MainDeltaTime);
+
 
 }
 

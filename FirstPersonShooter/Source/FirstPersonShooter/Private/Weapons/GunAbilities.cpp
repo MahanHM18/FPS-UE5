@@ -12,7 +12,7 @@ UGunAbilities::UGunAbilities():
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -34,16 +34,19 @@ void UGunAbilities::BeginPlay()
 void UGunAbilities::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	MainDeltaTime = DeltaTime;
+
+
 	// ...
 }
 
 
 
-void UGunAbilities::Recoil(UCameraComponent* Camera)
+void UGunAbilities::Recoil(UCameraComponent* Camera,float MainDeltaTime)
 {
 	if (CurrentAmmo > 0)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Recoil")));		
+		
 		float randZ = FMath::RandRange(-15, 15);
 		float randY = FMath::RandRange(-60, 60);
 
@@ -106,6 +109,7 @@ void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInst
 		}
 
 		HandAnimInstance->Montage_Play(IsAiming ? AimFireMontage : FireMontage);
+
 	}
 
 

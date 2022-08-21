@@ -39,9 +39,12 @@ public:
 
 	FORCEINLINE void SetEnemyMovementStatus(EEnemyMovementStatus Status) { MovementStatus = Status; }
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+private:
 
 public:
 	// Called every frame
@@ -58,6 +61,10 @@ public:
 
 	UFUNCTION()
 	void OnCombatOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnCombatOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 
 	void MoveToTarget(class AFPSCharacter* Player);
 

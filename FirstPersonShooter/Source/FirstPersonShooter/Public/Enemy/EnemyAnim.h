@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Enemy/Enemy.h"
 #include "EnemyAnim.generated.h"
 
 /**
@@ -32,7 +33,12 @@ public:
 	bool bIsAir;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	EEnemyMovementStatus Status;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class APawn* Pawn;
+
+
 private:
 
 };
