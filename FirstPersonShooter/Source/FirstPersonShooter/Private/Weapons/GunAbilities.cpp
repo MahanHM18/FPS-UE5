@@ -109,10 +109,15 @@ void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInst
 		if (OutHit.bBlockingHit)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("We are hiting %s"), *OutHit.GetActor()->GetName()));
+
 			UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(20, 20, 20), OutHit.Location, OutHit.Normal.Rotation());
 
-			AEnemy* Enemy = Cast<AEnemy>(OutHit.GetActor());
-			Enemy->DecreaseDamage(5);
+			if (OutHit.GetActor()->ActorHasTag(FName("Enemy")))
+			{
+				AEnemy* Enemy = Cast<AEnemy>(OutHit.GetActor());
+				Enemy->DecreaseDamage(5);
+			}
+
 		}
 
 		HandAnimInstance->Montage_Play(IsAiming ? AimFireMontage : FireMontage);
