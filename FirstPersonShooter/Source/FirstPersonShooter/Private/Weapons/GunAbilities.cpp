@@ -5,9 +5,10 @@
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
+#include "Enemy/Enemy.h"
 
 // Sets default values for this component's properties
-UGunAbilities::UGunAbilities():
+UGunAbilities::UGunAbilities() :
 	IsReloading(false)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -41,12 +42,12 @@ void UGunAbilities::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 
 
-void UGunAbilities::Recoil(UCameraComponent* Camera,float MainDeltaTime)
+void UGunAbilities::Recoil(UCameraComponent* Camera, float MainDeltaTime)
 {
 	if (CurrentAmmo > 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Recoil")));		
-		
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Recoil")));
+
 		float randZ = FMath::RandRange(-15, 15);
 		float randY = FMath::RandRange(-60, 60);
 
@@ -71,7 +72,10 @@ void UGunAbilities::Reload(UAnimInstance* HandMesh)
 
 
 		if (ReloadMontage)
+		{
 			HandMesh->Montage_Play(ReloadMontage);
+		}
+
 	}
 
 }
@@ -106,6 +110,9 @@ void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInst
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("We are hiting %s"), *OutHit.GetActor()->GetName()));
 			UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(20, 20, 20), OutHit.Location, OutHit.Normal.Rotation());
+
+			AEnemy* Enemy = Cast<AEnemy>(OutHit.GetActor());
+			Enemy->DecreaseDamage(5);
 		}
 
 		HandAnimInstance->Montage_Play(IsAiming ? AimFireMontage : FireMontage);

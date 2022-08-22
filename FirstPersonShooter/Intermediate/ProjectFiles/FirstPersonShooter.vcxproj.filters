@@ -86,6 +86,15 @@
     <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Weapons\GunAbilities.cpp">
       <Filter>Source\FirstPersonShooter\Private\Weapons</Filter>
     </ClCompile>
+    <Filter Include="Source\FirstPersonShooter\Private\Widgets">
+      <UniqueIdentifier>{17243BCE-8583-3F24-AC84-2B98AE908168}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Widgets\EnemyWidget.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\Widgets\PlayerHUD.cpp">
+      <Filter>Source\FirstPersonShooter\Private\Widgets</Filter>
+    </ClCompile>
     <Filter Include="Source\FirstPersonShooter\Public">
       <UniqueIdentifier>{90D21A02-B4BE-31E9-B68D-91D476562B5E}</UniqueIdentifier>
     </Filter>
@@ -121,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Weapons\GunAbilities.h">
       <Filter>Source\FirstPersonShooter\Public\Weapons</Filter>
+    </ClInclude>
+    <Filter Include="Source\FirstPersonShooter\Public\Widgets">
+      <UniqueIdentifier>{CFD2B964-1DB0-3799-8C90-664B51DDB651}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Widgets\EnemyWidget.h">
+      <Filter>Source\FirstPersonShooter\Public\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\Widgets\PlayerHUD.h">
+      <Filter>Source\FirstPersonShooter\Public\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,9 +5,12 @@
 #include "Components/SphereComponent.h"
 #include "AIController.h"
 #include "PlayerCharacter/FPSCharacter.h"
+#include "Components/WidgetComponent.h"
+#include "Widgets/EnemyWidget.h"
 
 // Sets default values
-AEnemy::AEnemy()
+AEnemy::AEnemy():
+	Health(50)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -19,6 +22,10 @@ AEnemy::AEnemy()
 	CombatShpere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatShpere->SetupAttachment(RootComponent);
 	CombatShpere->SetSphereRadius(70.f);
+
+	HealthWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HelathWidget"));
+	HealthWidget->SetupAttachment(GetMesh());
+
 
 }
 
@@ -34,6 +41,11 @@ void AEnemy::BeginPlay()
 
 	CombatShpere->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnCombatOverlapBegin);
 	CombatShpere->OnComponentEndOverlap.AddDynamic(this, &AEnemy::OnCombatOverlapEnd);
+
+	UEnemyWidget* Widget = Cast<UEnemyWidget>(HealthWidget->GetUserWidgetObject());
+	Widget->Enemy = this;
+
+	
 }
 
 // Called every frame
@@ -47,6 +59,7 @@ void AEnemy::Tick(float DeltaTime)
 void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
 
 }
 
@@ -102,9 +115,13 @@ void AEnemy::MoveToTarget(AFPSCharacter* Player)
 
 		FNavPathSharedPtr Nav;
 		AIController->MoveTo(MoveRquest, &Nav);
-
-
+		
 		UE_LOG(LogTemp, Warning, TEXT("Chasing"));
 	}
+}
+
+void AEnemy::DecreaseDamage(float value)
+{
+	Health -= value;
 }
 

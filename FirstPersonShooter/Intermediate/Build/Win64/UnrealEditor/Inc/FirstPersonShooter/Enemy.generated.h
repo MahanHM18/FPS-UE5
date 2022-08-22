@@ -16,22 +16,28 @@ struct FHitResult;
 #endif
 #define FIRSTPERSONSHOOTER_Enemy_generated_h
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_SPARSE_DATA
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_RPC_WRAPPERS \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_SPARSE_DATA
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_RPC_WRAPPERS \
  \
+	DECLARE_FUNCTION(execDecreaseDamage); \
+	DECLARE_FUNCTION(execOnCombatOverlapEnd); \
 	DECLARE_FUNCTION(execOnCombatOverlapBegin); \
 	DECLARE_FUNCTION(execOnAgroOverlapEnd); \
-	DECLARE_FUNCTION(execOnAgroOverlapBegin);
+	DECLARE_FUNCTION(execOnAgroOverlapBegin); \
+	DECLARE_FUNCTION(execGetEnemyHealth);
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_RPC_WRAPPERS_NO_PURE_DECLS \
  \
+	DECLARE_FUNCTION(execDecreaseDamage); \
+	DECLARE_FUNCTION(execOnCombatOverlapEnd); \
 	DECLARE_FUNCTION(execOnCombatOverlapBegin); \
 	DECLARE_FUNCTION(execOnAgroOverlapEnd); \
-	DECLARE_FUNCTION(execOnAgroOverlapBegin);
+	DECLARE_FUNCTION(execOnAgroOverlapBegin); \
+	DECLARE_FUNCTION(execGetEnemyHealth);
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_INCLASS_NO_PURE_DECLS \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAEnemy(); \
 	friend struct Z_Construct_UClass_AEnemy_Statics; \
@@ -40,7 +46,7 @@ public: \
 	DECLARE_SERIALIZER(AEnemy)
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_INCLASS \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_INCLASS \
 private: \
 	static void StaticRegisterNativesAEnemy(); \
 	friend struct Z_Construct_UClass_AEnemy_Statics; \
@@ -49,7 +55,7 @@ public: \
 	DECLARE_SERIALIZER(AEnemy)
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_STANDARD_CONSTRUCTORS \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API AEnemy(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AEnemy) \
@@ -62,7 +68,7 @@ private: \
 public:
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_ENHANCED_CONSTRUCTORS \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API AEnemy(AEnemy&&); \
@@ -73,25 +79,25 @@ public: \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AEnemy)
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_18_PROLOG
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_GENERATED_BODY_LEGACY \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_19_PROLOG
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_SPARSE_DATA \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_RPC_WRAPPERS \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_INCLASS \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_STANDARD_CONSTRUCTORS \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_SPARSE_DATA \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_RPC_WRAPPERS \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_INCLASS \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_GENERATED_BODY \
+#define FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_SPARSE_DATA \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_INCLASS_NO_PURE_DECLS \
-	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_21_ENHANCED_CONSTRUCTORS \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_SPARSE_DATA \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_INCLASS_NO_PURE_DECLS \
+	FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_Enemy_h_22_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

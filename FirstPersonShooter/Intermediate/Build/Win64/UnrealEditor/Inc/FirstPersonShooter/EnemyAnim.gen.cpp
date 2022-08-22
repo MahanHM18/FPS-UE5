@@ -15,6 +15,7 @@ void EmptyLinkFunctionForGeneratedCodeEnemyAnim() {}
 	ENGINE_API UClass* Z_Construct_UClass_UAnimInstance();
 	UPackage* Z_Construct_UPackage__Script_FirstPersonShooter();
 	FIRSTPERSONSHOOTER_API UClass* Z_Construct_UClass_AEnemy_NoRegister();
+	FIRSTPERSONSHOOTER_API UEnum* Z_Construct_UEnum_FirstPersonShooter_EEnemyMovementStatus();
 	ENGINE_API UClass* Z_Construct_UClass_APawn_NoRegister();
 // End Cross Module References
 	DEFINE_FUNCTION(UEnemyAnim::execUpdateAnimationProperties)
@@ -90,6 +91,11 @@ void EmptyLinkFunctionForGeneratedCodeEnemyAnim() {}
 #endif
 		static void NewProp_bIsAir_SetBit(void* Obj);
 		static const UECodeGen_Private::FBoolPropertyParams NewProp_bIsAir;
+		static const UECodeGen_Private::FBytePropertyParams NewProp_Status_Underlying;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_Status_MetaData[];
+#endif
+		static const UECodeGen_Private::FEnumPropertyParams NewProp_Status;
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_Pawn_MetaData[];
 #endif
@@ -141,6 +147,15 @@ void EmptyLinkFunctionForGeneratedCodeEnemyAnim() {}
 		((UEnemyAnim*)Obj)->bIsAir = 1;
 	}
 	const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UEnemyAnim_Statics::NewProp_bIsAir = { "bIsAir", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(UEnemyAnim), &Z_Construct_UClass_UEnemyAnim_Statics::NewProp_bIsAir_SetBit, METADATA_PARAMS(Z_Construct_UClass_UEnemyAnim_Statics::NewProp_bIsAir_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UEnemyAnim_Statics::NewProp_bIsAir_MetaData)) };
+	const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, 1, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status_MetaData[] = {
+		{ "AllowPrivateAccess", "true" },
+		{ "Category", "Camera" },
+		{ "ModuleRelativePath", "Public/Enemy/EnemyAnim.h" },
+	};
+#endif
+	const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status = { "Status", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UEnemyAnim, Status), Z_Construct_UEnum_FirstPersonShooter_EEnemyMovementStatus, METADATA_PARAMS(Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status_MetaData)) }; // 3284313436
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Pawn_MetaData[] = {
 		{ "AllowPrivateAccess", "true" },
@@ -153,6 +168,8 @@ void EmptyLinkFunctionForGeneratedCodeEnemyAnim() {}
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Speed,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Enemy,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UEnemyAnim_Statics::NewProp_bIsAir,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status_Underlying,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Status,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UEnemyAnim_Statics::NewProp_Pawn,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UEnemyAnim_Statics::StaticCppClassTypeInfo = {
@@ -191,9 +208,9 @@ void EmptyLinkFunctionForGeneratedCodeEnemyAnim() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_EnemyAnim_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UEnemyAnim, UEnemyAnim::StaticClass, TEXT("UEnemyAnim"), &Z_Registration_Info_UClass_UEnemyAnim, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UEnemyAnim), 2191384313U) },
+		{ Z_Construct_UClass_UEnemyAnim, UEnemyAnim::StaticClass, TEXT("UEnemyAnim"), &Z_Registration_Info_UClass_UEnemyAnim, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UEnemyAnim), 569453006U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_EnemyAnim_h_610292619(TEXT("/Script/FirstPersonShooter"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_EnemyAnim_h_3821970210(TEXT("/Script/FirstPersonShooter"),
 		Z_CompiledInDeferFile_FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_EnemyAnim_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_FirstPersonShooter_Source_FirstPersonShooter_Public_Enemy_EnemyAnim_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

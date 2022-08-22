@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Enemy.generated.h"
 
+
 UENUM(BlueprintType)
 enum class EEnemyMovementStatus : uint8
 {
@@ -37,14 +38,22 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AI)
 	class AAIController* AIController;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health)
+	class UWidgetComponent* HealthWidget;
+
 	FORCEINLINE void SetEnemyMovementStatus(EEnemyMovementStatus Status) { MovementStatus = Status; }
 
-
+	UFUNCTION(Blueprintpure)
+	FORCEINLINE float GetEnemyHealth() { return Health; }
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 private:
+
+	float Health;
+
+	bool bIsDead;
 
 public:
 	// Called every frame
@@ -55,7 +64,7 @@ public:
 
 	UFUNCTION()
 	void OnAgroOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
+
 	UFUNCTION()
 	void OnAgroOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
@@ -65,7 +74,11 @@ public:
 	UFUNCTION()
 	void OnCombatOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UFUNCTION(BlueprintCallable)
+	void DecreaseDamage(float value);
+
 
 	void MoveToTarget(class AFPSCharacter* Player);
+
 
 };

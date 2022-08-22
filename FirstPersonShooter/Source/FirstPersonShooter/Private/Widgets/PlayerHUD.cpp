@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PlayerHUD.h"
+#include "Widgets/PlayerHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerCharacter/FPSCharacter.h"
 #include "Weapons/GunAbilities.h"

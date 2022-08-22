@@ -1,27 +1,19 @@
 ﻿  Using bundled DotNet SDK
   Log file: C:\Users\HOME\AppData\Local\UnrealBuildTool\Log.txt
   Using 'git status' to determine working set for adaptive non-unity build (C:\Users\HOME\Documents\FPS-UE5).
-  Invalidating makefile for FirstPersonShooterEditor (working set of source files changed)
-  Parsing headers for FirstPersonShooterEditor
-    Running UnrealHeaderTool "C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\FirstPersonShooter.uproject" "C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\FirstPersonShooterEditor\Development\FirstPersonShooterEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="C:\Users\HOME\AppData\Local\UnrealBuildTool\Log_UHT.txt" -installed
-  Reflection code generated for FirstPersonShooterEditor in 1.1246222 seconds
   Building FirstPersonShooterEditor...
   Using Visual Studio 2022 14.32.31332 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326) and Windows 10.0.22621.0 SDK (C:\Program Files (x86)\Windows Kits\10).
-  [Adaptive Build] Excluded from FirstPersonShooter unity file: FPSCharacter.cpp
+  [Adaptive Build] Excluded from FirstPersonShooter unity file: Enemy.cpp, GunAbilities.cpp, EnemyWidget.cpp, PlayerHUD.cpp
   Determining max actions to execute in parallel (6 physical cores, 12 logical cores)
     Executing up to 6 processes, one per physical core
-    Requested 1.5 GB free memory per action, 3.94 GB available: limiting max parallel actions to 2
-  Building 7 actions with 2 processes...
-  [1/7] Compile FPSAnimInstance.cpp
-  [2/7] Compile FPSCharacter.gen.cpp
-  [3/7] Compile Enemy.cpp
-  [4/7] Compile FPSCharacter.cpp
-C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Source\FirstPersonShooter\Private\PlayerCharacter\FPSCharacter.cpp(26): warning C5038: data member 'AFPSCharacter::TurnRate' will be initialized after data member 'AFPSCharacter::WalkSpeed'
-C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Source\FirstPersonShooter\Private\PlayerCharacter\FPSCharacter.cpp(32): warning C5038: data member 'AFPSCharacter::IsReloading' will be initialized after data member 'AFPSCharacter::CurrentGun'
-  [5/7] Link UnrealEditor-FirstPersonShooter-0002.lib
-     Creating library C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0002.lib and object C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0002.exp
-  [6/7] Link UnrealEditor-FirstPersonShooter-0002.dll
-     Creating library C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0002.suppressed.lib and object C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0002.suppressed.exp
-  [7/7] WriteMetadata FirstPersonShooterEditor.target
-  Total time in Parallel executor: 6.33 seconds
-  Total execution time: 8.79 seconds
+    Requested 1.5 GB free memory per action, 4.42 GB available: limiting max parallel actions to 2
+  Building 5 actions with 2 processes...
+  [1/5] Compile GunAbilities.cpp
+  [2/5] Compile Enemy.cpp
+  [3/5] Link UnrealEditor-FirstPersonShooter-0006.lib
+     Creating library C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0006.lib and object C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0006.exp
+  [4/5] Link UnrealEditor-FirstPersonShooter-0006.dll
+     Creating library C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0006.suppressed.lib and object C:\Users\HOME\Documents\FPS-UE5\FirstPersonShooter\Intermediate\Build\Win64\UnrealEditor\Development\FirstPersonShooter\UnrealEditor-FirstPersonShooter-0006.suppressed.exp
+  [5/5] WriteMetadata FirstPersonShooterEditor.target
+  Total time in Parallel executor: 5.42 seconds
+  Total execution time: 5.97 seconds
