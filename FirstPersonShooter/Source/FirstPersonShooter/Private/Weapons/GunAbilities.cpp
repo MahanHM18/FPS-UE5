@@ -44,15 +44,15 @@ void UGunAbilities::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void UGunAbilities::Recoil(UCameraComponent* Camera, float MainDeltaTime)
 {
-	if (CurrentAmmo > 0)
+	if (CurrentAmmo > 0 && !IsReloading)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Recoil")));
 
-		float randZ = FMath::RandRange(-15, 15);
-		float randY = FMath::RandRange(-60, 60);
+		float randZ = FMath::RandRange(-50, 50);
+		float randY = FMath::RandRange(0, 100);
 
 
-		Camera->SetRelativeRotation(FRotator(FMath::FInterpTo(Camera->GetRelativeRotation().Pitch, randY, MainDeltaTime, 1), FMath::FInterpTo(Camera->GetRelativeRotation().Pitch, randY, MainDeltaTime, 1), 0));
+		Camera->SetRelativeRotation(FRotator(FMath::FInterpTo(Camera->GetRelativeRotation().Pitch, randY, MainDeltaTime, 1), FMath::FInterpTo(Camera->GetRelativeRotation().Yaw, randZ, MainDeltaTime, 1), 0));
 
 	}
 
@@ -90,7 +90,7 @@ void UGunAbilities::ReloadFinish()
 
 void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInstance, FVector MuzzleFlashLocation, FQuat4d MuzzleFlashQuat, bool IsAiming)
 {
-	if (CurrentAmmo > 0)
+	if (CurrentAmmo > 0 && !IsReloading)
 	{
 		CurrentAmmo--;
 		FTransform MuzzleFlashTransform;

@@ -49,12 +49,13 @@ AFPSCharacter::AFPSCharacter() :
 	HandMesh->SetRelativeLocation(FVector(48.0, 0.f, -13.f));
 	HandMesh->CastShadow = false;
 
+
 	//GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
 	//GunMesh->SetupAttachment(HandMesh, "Weapon_Position");
 
 	MagMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MagMesh"));
 	MagMesh->SetupAttachment(HandMesh, "Mag_Position");
-
+	MagMesh->CastShadow = false;
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
@@ -68,6 +69,8 @@ AFPSCharacter::AFPSCharacter() :
 void AFPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HandMesh->CastShadow = false;
 
 	if (PlayerWidgetClass != nullptr)
 	{
@@ -234,7 +237,10 @@ void AFPSCharacter::SwitchGunWithKeyboard()
 		SwitchGun(0);
 	}
 	if (PlayerController->WasInputKeyJustPressed(EKeys::Two))
+	{
 		SwitchGun(1);
+	}
+
 }
 
 void AFPSCharacter::SwitchGun(int Index)

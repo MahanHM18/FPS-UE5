@@ -7,10 +7,11 @@
 #include "PlayerCharacter/FPSCharacter.h"
 #include "Components/WidgetComponent.h"
 #include "Widgets/EnemyWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
-AEnemy::AEnemy():
-	Health(50)
+AEnemy::AEnemy() :
+	Health(100)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -33,6 +34,7 @@ AEnemy::AEnemy():
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+
 	AIController = Cast<AAIController>(GetController());
 
 	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnAgroOverlapBegin);
@@ -45,14 +47,17 @@ void AEnemy::BeginPlay()
 	UEnemyWidget* Widget = Cast<UEnemyWidget>(HealthWidget->GetUserWidgetObject());
 	Widget->Enemy = this;
 
-	
+	HealthWidget->SetVisibility(false);
 }
+
+
 
 // Called every frame
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	Timer += DeltaTime;
 }
 
 // Called to bind functionality to input
@@ -105,23 +110,69 @@ void AEnemy::OnCombatOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 void AEnemy::MoveToTarget(AFPSCharacter* Player)
 {
+	if (MovementStatus == EEnemyMovementStatus::EMS_Dead)
+	{
+		return;
+	}
+
 	SetEnemyMovementStatus(EEnemyMovementStatus::EMS_Chase);
 
 	if (AIController)
 	{
 		FAIMoveRequest MoveRquest;
 		MoveRquest.SetGoalActor(Player);
-		MoveRquest.SetAcceptanceRadius(10);
+		MoveRquest.SetAcceptanceRadius(30);
 
 		FNavPathSharedPtr Nav;
 		AIController->MoveTo(MoveRquest, &Nav);
-		
+
 		UE_LOG(LogTemp, Warning, TEXT("Chasing"));
 	}
 }
 
 void AEnemy::DecreaseDamage(float value)
 {
+	if (Health <= 0)
+	{
+		Die();
+		SetEnemyMovementStatus(EEnemyMovementStatus::EMS_Dead);
+		return;
+	}
+	AFPSCharacter* Player = Cast<AFPSCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+
+	MoveToTarget(Player);
+
+	HealthWidget->SetVisibility(true);
+
+	FTimerHandle Handle;
+	GetWorldTimerManager().SetTimer(Handle, this, &AEnemy::UnVisibleHealthWidget, TimeToUnVisible, false);
+
+
+
 	Health -= value;
 }
 
+void AEnemy::Die()
+{
+	SetEnemyMovementStatus(EEnemyMovementStatus::EMS_Dead);
+
+	AIController->StopMovement();
+
+	AgroSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	CombatShpere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	GetWorldTimerManager().SetTimer(DamageHandle, this, &AEnemy::DestroyEnemy, TimeToDestroy, false);
+
+	HealthWidget->SetVisibility(false);
+
+}
+
+void AEnemy::DestroyEnemy()
+{
+	Destroy();
+}
+
+void AEnemy::UnVisibleHealthWidget()
+{
+	HealthWidget->SetVisibility(false);
+}

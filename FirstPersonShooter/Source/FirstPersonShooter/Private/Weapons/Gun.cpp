@@ -28,6 +28,8 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GunMesh->CastShadow = false;
+
 	
 }
 

@@ -12,7 +12,8 @@ enum class EEnemyMovementStatus : uint8
 {
 	EMS_Idle UMETA(DisplayName = "Idle"),
 	EMS_Chase UMETA(DisplayName = "Chase"),
-	EMS_Attack UMETA(DisplayName = "Attakc")
+	EMS_Attack UMETA(DisplayName = "Attakc"),
+	EMS_Dead UMETA(DisplayName = "Dead")
 };
 
 
@@ -49,11 +50,27 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void Die();
+
+	void DestroyEnemy();
+
+	void UnVisibleHealthWidget();
+
 private:
 
 	float Health;
 
-	bool bIsDead;
+
+	FTimerHandle DamageHandle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Dead, meta = (AllowPrivateAccess = "true"))
+	float TimeToDestroy;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Dead, meta = (AllowPrivateAccess = "true"))
+	float TimeToUnVisible;
+
+	float Timer;
 
 public:
 	// Called every frame

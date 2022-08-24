@@ -27,8 +27,6 @@ void UFPSAnimInstance::UpdateAnimInstance(float DeltaTime)
 		bIsAiming = Character->GetAiming();
 
 		GunType = Character->GetGunTpye();
-
-
 	}
 
 }
