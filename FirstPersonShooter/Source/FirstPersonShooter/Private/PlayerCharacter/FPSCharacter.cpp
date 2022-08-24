@@ -72,13 +72,6 @@ void AFPSCharacter::BeginPlay()
 
 	HandMesh->CastShadow = false;
 
-	if (PlayerWidgetClass != nullptr)
-	{
-		PlayerWidget = CreateWidget(GetWorld(), PlayerWidgetClass);
-		PlayerWidget->AddToViewport();
-	}
-
-
 	PlayerController = GetWorld()->GetFirstPlayerController();
 
 	BasicSetup();
@@ -103,7 +96,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 		CameraFollow->SetRelativeRotation(FMath::RInterpTo(CameraFollow->GetRelativeRotation(), FRotator(0, 0, 0), DeltaTime, 3));
 	}
 
-	//SwitchGunWithKeyboard();
+	SwitchGunWithKeyboard();
 
 	MainDeltaTime = DeltaTime;
 
@@ -190,6 +183,8 @@ void AFPSCharacter::AimButtonReleased()
 
 void AFPSCharacter::FireButtonPressed()
 {
+	if (Guns.Num() == 0)
+		return;
 
 	Fire();
 	IsShooting = true;
@@ -237,7 +232,7 @@ void AFPSCharacter::SwitchGunWithKeyboard()
 	{
 		SwitchGun(0);
 	}
-	if (PlayerController->WasInputKeyJustPressed(EKeys::Two))
+	if (PlayerController->WasInputKeyJustPressed(EKeys::Two) && Guns.Num() >= 2)
 	{
 		SwitchGun(1);
 	}
@@ -250,10 +245,9 @@ void AFPSCharacter::SwitchGun(int Index)
 	{
 		for (int i = 0; i < Guns.Num(); i++)
 		{
-			if (Guns[i])
-			{
-				Guns[i]->SetActorHiddenInGame(true);
-			}
+			
+			
+			Guns[i]->SetActorHiddenInGame(true);
 
 		}
 
@@ -341,6 +335,9 @@ void AFPSCharacter::GetGun(AGun* Gun)
 	Guns.Add(Gun);
 	Gun->SetGunSetup(EGunSetup::Attached);
 	Gun->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepWorldTransform, FName("Weapon_Position"));
+	
+	Gun->SetActorRelativeLocation(FVector(0, 0, 0));
+	Gun->SetActorRelativeRotation(FRotator(0, 0, 0));
 
 	CurrentGun = Guns.Num() - 1;
 	Guns[CurrentGun]->SetActorHiddenInGame(false);

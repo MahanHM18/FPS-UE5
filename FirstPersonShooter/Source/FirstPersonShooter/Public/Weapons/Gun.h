@@ -62,7 +62,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* PickUpBox;
 
-
+	bool bDoOnce;
 
 public:
 

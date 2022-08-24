@@ -9,9 +9,10 @@
 #include "PlayerCharacter/FPSCharacter.h"
 
 // Sets default values
-AGun::AGun()
+AGun::AGun() :
+	bDoOnce(true)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
@@ -62,10 +63,17 @@ void AGun::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 {
 	if (OtherActor->ActorHasTag("Player"))
 	{
-		AFPSCharacter* Player = Cast<AFPSCharacter>(OtherActor);
-		SetActorRelativeLocation(FVector(0, 0, 0));
-		SetActorRelativeRotation(FRotator(0, 0, 0));
-		Player->GetGun(this);
+		if (bDoOnce)
+		{
+			bDoOnce = false;
+			AFPSCharacter* Player = Cast<AFPSCharacter>(OtherActor);
+			SetActorRelativeLocation(FVector(0, 0, 0));
+			SetActorRelativeRotation(FRotator(0, 0, 0));
+			Player->GetGun(this);
+			
+			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("P")));
+		}
+
 	}
 }
 
