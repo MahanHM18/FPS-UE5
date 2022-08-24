@@ -46,6 +46,8 @@ protected:
 	void ThrowGrenade();
 
 	void BasicSetup();
+
+
 public:
 
 	// Called every frame
@@ -113,8 +115,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grenade, meta = (AllowPrivateAccess = "true"))
 	float GrenadeSpeed;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
-	TArray<AGun*> Guns;
+	
 
 	bool IsAiming;
 
@@ -136,5 +137,9 @@ public:
 	
 	FORCEINLINE AGun* GetCurrentGun() const { return Guns[CurrentGun]; }
 
-	
+	UFUNCTION(BlueprintCallable)
+	void GetGun(class AGun* Gun);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
+	TArray<AGun*> Guns;
 };

@@ -9,14 +9,21 @@
 int UPlayerHUD::GetPlayerCurrentAmmo()
 {
 	FindPlayerCharacter();
-
-	return Player->GetCurrentGun()->GetGunAbility()->CurrentAmmo;
+	if (Player->Guns.Num() > 0)
+	{
+		return Player->GetCurrentGun()->GetGunAbility()->CurrentAmmo;
+	}
+	return 0;
 }
 
 int UPlayerHUD::GetPlayerCurrentMag()
 {
 	FindPlayerCharacter();
-	return Player->GetCurrentGun()->GetGunAbility()->CurrentMag;
+	if (Player->Guns.Num() > 0)
+	{
+		return Player->GetCurrentGun()->GetGunAbility()->CurrentMag;
+	}
+	return 0;
 }
 
 void UPlayerHUD::FindPlayerCharacter()

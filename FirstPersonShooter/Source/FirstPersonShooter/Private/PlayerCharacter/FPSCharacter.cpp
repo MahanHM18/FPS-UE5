@@ -82,6 +82,7 @@ void AFPSCharacter::BeginPlay()
 	PlayerController = GetWorld()->GetFirstPlayerController();
 
 	BasicSetup();
+
 }
 void AFPSCharacter::Tick(float DeltaTime)
 {
@@ -102,7 +103,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 		CameraFollow->SetRelativeRotation(FMath::RInterpTo(CameraFollow->GetRelativeRotation(), FRotator(0, 0, 0), DeltaTime, 3));
 	}
 
-	SwitchGunWithKeyboard();
+	//SwitchGunWithKeyboard();
 
 	MainDeltaTime = DeltaTime;
 
@@ -245,15 +246,23 @@ void AFPSCharacter::SwitchGunWithKeyboard()
 
 void AFPSCharacter::SwitchGun(int Index)
 {
-	for (int i = 0; i < Guns.Num(); i++)
+	if (Guns.Num() > 0)
 	{
-		Guns[i]->SetActorHiddenInGame(true);
+		for (int i = 0; i < Guns.Num(); i++)
+		{
+			if (Guns[i])
+			{
+				Guns[i]->SetActorHiddenInGame(true);
+			}
+
+		}
+
+		CurrentGun = Index;
+		Guns[CurrentGun]->SetActorHiddenInGame(false);
+		MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
+		CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
 	}
 
-	CurrentGun = Index;
-	Guns[CurrentGun]->SetActorHiddenInGame(false);
-	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
-	CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
 }
 
 void AFPSCharacter::SwitchWithScroller(float Value)
@@ -282,27 +291,59 @@ void AFPSCharacter::ThrowGrenade()
 
 void AFPSCharacter::BasicSetup()
 {
-
-
-	for (int i = 0; i < GunClasses.Num(); i++)
+	if (GunClasses.Num() > 0)
 	{
 
-		AGun* Base = GetWorld()->SpawnActor<AGun>(GunClasses[i]);
-		Guns.Add(Base);
-		Base->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepRelativeTransform, "Weapon_Position");
-		Base->SetOwner(this);
+		for (int i = 0; i < GunClasses.Num(); i++)
+		{
+			if (GunClasses[i])
+			{
+				AGun* Base = GetWorld()->SpawnActor<AGun>(GunClasses[i]);
+				Guns.Add(Base);
+				Base->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepRelativeTransform, "Weapon_Position");
+				Base->SetOwner(this);
+				Base->SetGunSetup(EGunSetup::Attached);
+			}
+
+		}
+
+		for (int i = 0; i < Guns.Num(); i++)
+		{
+			if (Guns[i])
+			{
+				Guns[i]->SetActorHiddenInGame(true);
+			}
+
+		}
+
+		CurrentGun = 0;
+		if (Guns[CurrentGun])
+		{
+			Guns[CurrentGun]->SetActorHiddenInGame(false);
+			CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
+
+			//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
+
+		}
+		MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
 	}
 
-	for (int i = 0; i < Guns.Num(); i++)
+
+}
+
+void AFPSCharacter::GetGun(AGun* Gun)
+{
+	if (Gun == nullptr)
 	{
-		Guns[i]->SetActorHiddenInGame(true);
+		return;
 	}
 
-	CurrentGun = 0;
+	Guns.Add(Gun);
+	Gun->SetGunSetup(EGunSetup::Attached);
+	Gun->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepWorldTransform, FName("Weapon_Position"));
+
+	CurrentGun = Guns.Num() - 1;
 	Guns[CurrentGun]->SetActorHiddenInGame(false);
-	CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
 
-	//GunMesh->SetStaticMesh(Guns[CurrentGun]->GetGunMesh());
-	MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
 }
 

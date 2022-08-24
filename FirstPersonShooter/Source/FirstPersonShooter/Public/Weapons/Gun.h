@@ -15,6 +15,13 @@ enum class EGunType : uint8
 
 };
 
+UENUM(BlueprintType)
+enum class EGunSetup : uint8
+{
+	PickUp = 0 UMETA(DisplayName = "PickUp"),
+	Attached = 1 UMETA(DisplayName = "Attached")
+};
+
 
 UCLASS()
 class FIRSTPERSONSHOOTER_API AGun : public AActor
@@ -28,6 +35,11 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 public:
 
@@ -44,6 +56,12 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* FirePoint;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+	EGunSetup Setup;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* PickUpBox;
+
 
 
 public:
@@ -56,5 +74,7 @@ public:
 
 	FORCEINLINE UGunAbilities* GetGunAbility() const { return GunAbilities; }
 
+	FORCEINLINE void SetGunSetup(EGunSetup S) { Setup = S; }
+	FORCEINLINE EGunSetup GetGunSetup() { return Setup; }
 
 };
