@@ -11,6 +11,9 @@
     <None Include="..\..\Source\FirstPersonShooterEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\SPAPEREXTRACTSPRITESDIALOG.ipch" />
+    <None Include="..\..\TRACEWORLDFILTERING.ipch" />
+    <None Include="..\..\UVSELECTTOOL.ipch" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
     </Filter>
@@ -53,6 +56,9 @@
     <Filter Include="Source\FirstPersonShooter\Private">
       <UniqueIdentifier>{EFC9FA4B-5A36-3B63-A5FA-7851E7ED4027}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\FirstPersonShooter\Private\FPSPlayerController.cpp">
+      <Filter>Source\FirstPersonShooter\Private</Filter>
+    </ClCompile>
     <Filter Include="Source\FirstPersonShooter\Private\Enemy">
       <UniqueIdentifier>{40A099F5-4A6C-37BB-A357-BCF80E8A3C9D}</UniqueIdentifier>
     </Filter>
@@ -98,6 +104,9 @@
     <Filter Include="Source\FirstPersonShooter\Public">
       <UniqueIdentifier>{90D21A02-B4BE-31E9-B68D-91D476562B5E}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\FirstPersonShooter\Public\FPSPlayerController.h">
+      <Filter>Source\FirstPersonShooter\Public</Filter>
+    </ClInclude>
     <Filter Include="Source\FirstPersonShooter\Public\Enemy">
       <UniqueIdentifier>{E57017EB-073D-33FB-A4F4-231E91A54665}</UniqueIdentifier>
     </Filter>
