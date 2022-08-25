@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Weapons/Gun.h"
 #include "Components/ActorComponent.h"
+#include "Sound/SoundCue.h"
 #include "GunAbilities.generated.h"
 
 
@@ -33,7 +34,6 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound, meta = (AllowPrivateAccess = "true"))
 	class USoundBase* ReloadSound;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
 	class UAnimMontage* FireMontage;
 
@@ -45,10 +45,17 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
 	int MaxAmmo;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
 	int MaxMag;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
+	float Damage;
+
 	bool IsReloading;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
+	USoundCue* ImapctSound;
 
 
 	void ReloadFinish();

@@ -20,6 +20,8 @@
 #include "Weapons/Grenade.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Weapons/GunAbilities.h"
+#include "FPSPlayerController.h"
+#include <Components/StaticMeshComponent.h>
 
 // Sets default values
 AFPSCharacter::AFPSCharacter() :
@@ -71,6 +73,7 @@ void AFPSCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	HandMesh->CastShadow = false;
+	HandMesh->SetVisibility(false);
 
 	PlayerController = GetWorld()->GetFirstPlayerController();
 
@@ -99,6 +102,8 @@ void AFPSCharacter::Tick(float DeltaTime)
 	SwitchGunWithKeyboard();
 
 	MainDeltaTime = DeltaTime;
+
+
 
 }
 
@@ -173,11 +178,33 @@ void AFPSCharacter::RunButtonReleased()
 
 void AFPSCharacter::AimButtonPressed()
 {
-	IsAiming = true;
+	if (Guns.Num() > 0)
+	{
+		if (CurrentGunType == EGunType::Sniper)
+		{
+			AFPSPlayerController* PC = Cast<AFPSPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+			PC->ShowSniperCrosshair();
+			Guns[CurrentGun]->GetGunMesh()->SetVisibility(false);
+			Guns[CurrentGun]->GetBarrelMesh()->SetVisibility(false);
+			Guns[CurrentGun]->GetScopMesh()->SetVisibility(false);
+			HandMesh->SetVisibility(false);
+		}
+		IsAiming = true;
+	}
+
 
 }
 void AFPSCharacter::AimButtonReleased()
 {
+	if (CurrentGunType == EGunType::Sniper)
+	{
+		AFPSPlayerController* PC = Cast<AFPSPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+		PC->DeshowSniperCrosshair();
+		Guns[CurrentGun]->GetGunMesh()->SetVisibility(true);
+		Guns[CurrentGun]->GetBarrelMesh()->SetVisibility(true);
+		Guns[CurrentGun]->GetScopMesh()->SetVisibility(true);
+		HandMesh->SetVisibility(true);
+	}
 	IsAiming = false;
 }
 
@@ -205,24 +232,32 @@ void AFPSCharacter::FireButtonReleased()
 
 void AFPSCharacter::Fire()
 {
+	if (Guns.Num() > 0)
+	{
+		UAnimInstance* AnimInstance = HandMesh->GetAnimInstance();
 
-	UAnimInstance* AnimInstance = HandMesh->GetAnimInstance();
+		FVector StartPoint = CameraFollow->GetComponentLocation() + FVector(0, 0, -0.01f);
+		FVector Forward = CameraFollow->GetForwardVector() + FVector(0, 0, -0.01f);
+		FVector EndPoint = StartPoint + Forward * 5000;
 
-	FVector StartPoint = CameraFollow->GetComponentLocation() + FVector(0, 0, -0.05f);
-	FVector Forward = CameraFollow->GetForwardVector() + FVector(0, 0, -0.05f);
-	FVector EndPoint = StartPoint + Forward * 5000;
+		if (CurrentGunType == EGunType::Sniper && !IsAiming)
+		{
+			return;
+		}
+			Guns[CurrentGun]->GetGunAbility()->Fire(StartPoint, EndPoint, AnimInstance, Guns[CurrentGun]->GetFirePoint()->GetComponentLocation(), Guns[CurrentGun]->GetFirePoint()->GetComponentQuat(), IsAiming);
+			Guns[CurrentGun]->GetGunAbility()->Recoil(CameraFollow, MainDeltaTime);
 
-	Guns[CurrentGun]->GetGunAbility()->Fire(StartPoint, EndPoint, AnimInstance, Guns[CurrentGun]->GetFirePoint()->GetComponentLocation(), Guns[CurrentGun]->GetFirePoint()->GetComponentQuat(), IsAiming);
-	Guns[CurrentGun]->GetGunAbility()->Recoil(CameraFollow, MainDeltaTime);
-
-
+	}
 }
 
 
 void AFPSCharacter::Reload()
 {
+	if (Guns.Num() > 0)
+	{
+		Guns[CurrentGun]->GetGunAbility()->Reload(HandMesh->GetAnimInstance());
+	}
 
-	Guns[CurrentGun]->GetGunAbility()->Reload(HandMesh->GetAnimInstance());
 }
 
 
@@ -241,12 +276,17 @@ void AFPSCharacter::SwitchGunWithKeyboard()
 
 void AFPSCharacter::SwitchGun(int Index)
 {
+	if (IsAiming)
+	{
+		return;
+	}
+
 	if (Guns.Num() > 0)
 	{
 		for (int i = 0; i < Guns.Num(); i++)
 		{
-			
-			
+
+
 			Guns[i]->SetActorHiddenInGame(true);
 
 		}
@@ -332,10 +372,15 @@ void AFPSCharacter::GetGun(AGun* Gun)
 		return;
 	}
 
+	if (Guns.Num() <= 0)
+	{
+		HandMesh->SetVisibility(true);
+	}
+
 	Guns.Add(Gun);
 	Gun->SetGunSetup(EGunSetup::Attached);
 	Gun->AttachToComponent(HandMesh, FAttachmentTransformRules::KeepWorldTransform, FName("Weapon_Position"));
-	
+
 	Gun->SetActorRelativeLocation(FVector(0, 0, 0));
 	Gun->SetActorRelativeRotation(FRotator(0, 0, 0));
 

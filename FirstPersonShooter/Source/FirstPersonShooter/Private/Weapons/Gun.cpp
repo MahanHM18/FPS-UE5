@@ -7,6 +7,7 @@
 #include "Weapons/GunAbilities.h"
 #include "Components/BoxComponent.h"
 #include "PlayerCharacter/FPSCharacter.h"
+#include "Components/TextRenderComponent.h"
 
 // Sets default values
 AGun::AGun() :
@@ -28,6 +29,13 @@ AGun::AGun() :
 	PickUpBox = CreateDefaultSubobject<UBoxComponent>(TEXT("PickUpCollision"));
 	PickUpBox->SetupAttachment(GunMesh);
 
+	BarrelMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BarrelMesh"));
+	BarrelMesh->SetupAttachment(RootComponent);
+
+	ScopeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ScopeMesh"));
+	ScopeMesh->SetupAttachment(RootComponent);
+
+
 }
 
 // Called when the game starts or when spawned
@@ -47,6 +55,8 @@ void AGun::BeginPlay()
 	}
 
 	PickUpBox->OnComponentBeginOverlap.AddDynamic(this, &AGun::OnOverlapBegin);
+
+	
 }
 
 void AGun::Tick(float DeltaTime)

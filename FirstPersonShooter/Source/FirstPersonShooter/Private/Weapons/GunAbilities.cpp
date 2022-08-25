@@ -112,10 +112,12 @@ void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInst
 
 			UGameplayStatics::SpawnDecalAtLocation(this, Decal, FVector(20, 20, 20), OutHit.Location, OutHit.Normal.Rotation());
 
+			UGameplayStatics::PlaySoundAtLocation(this, ImapctSound, OutHit.Location);
+
 			if (OutHit.GetActor()->ActorHasTag(FName("Enemy")))
 			{
 				AEnemy* Enemy = Cast<AEnemy>(OutHit.GetActor());
-				Enemy->DecreaseDamage(5);
+				Enemy->DecreaseDamage(Damage);
 			}
 
 		}

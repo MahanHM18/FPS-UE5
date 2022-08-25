@@ -22,6 +22,16 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = PlayerWidget, meta = (AllowPrivateAccess = "true"))
 	class UUserWidget* PlayerWidget;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerWidget, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UUserWidget> SniperCrosshairClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = PlayerWidget, meta = (AllowPrivateAccess = "true"))
+	class UUserWidget* SniperCrosshairWidget;
+public:
+
+	void ShowSniperCrosshair();
+
+	void DeshowSniperCrosshair();
 
 };

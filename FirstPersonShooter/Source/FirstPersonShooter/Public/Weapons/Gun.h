@@ -10,16 +10,17 @@
 UENUM(BlueprintType)
 enum class EGunType : uint8
 {
-	Rifle = 0	UMETA(DisplayName = "Rifle"),
-	Pistol = 1	 UMETA(DisplayName = "Pistol")
+	Rifle = 0		UMETA(DisplayName = "Rifle"),
+	Pistol = 1		UMETA(DisplayName = "Pistol"),
+	Sniper = 2		UMETA(DisplayName = "Sniper")
 
 };
 
 UENUM(BlueprintType)
 enum class EGunSetup : uint8
 {
-	PickUp = 0 UMETA(DisplayName = "PickUp"),
-	Attached = 1 UMETA(DisplayName = "Attached")
+	PickUp = 0		UMETA(DisplayName = "PickUp"),
+	Attached = 1	UMETA(DisplayName = "Attached")
 };
 
 
@@ -51,6 +52,12 @@ private:
 	UStaticMesh* MagMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* BarrelMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* ScopeMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
 	class UGunAbilities* GunAbilities;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gun, meta = (AllowPrivateAccess = "true"))
@@ -66,7 +73,10 @@ private:
 
 public:
 
-	FORCEINLINE UStaticMesh* GetGunMesh() const { return GunMesh->GetStaticMesh(); }
+	FORCEINLINE UStaticMeshComponent* GetGunMesh() const { return GunMesh; }
+	FORCEINLINE UStaticMeshComponent* GetBarrelMesh() const { return BarrelMesh; }
+	FORCEINLINE UStaticMeshComponent* GetScopMesh() const { return ScopeMesh; }
+
 	FORCEINLINE UStaticMesh* GetMagMesh() const { return MagMesh; }
 
 	FORCEINLINE USceneComponent* GetFirePoint() const { return FirePoint; }
@@ -75,6 +85,7 @@ public:
 	FORCEINLINE UGunAbilities* GetGunAbility() const { return GunAbilities; }
 
 	FORCEINLINE void SetGunSetup(EGunSetup S) { Setup = S; }
-	FORCEINLINE EGunSetup GetGunSetup() { return Setup; }
+	FORCEINLINE EGunSetup GetGunSetup() const { return Setup; }
+
 
 };

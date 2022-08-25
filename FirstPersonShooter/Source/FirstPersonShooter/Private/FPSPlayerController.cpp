@@ -16,5 +16,15 @@ void AFPSPlayerController::BeginPlay()
 		PlayerWidget = CreateWidget(GetWorld(), PlayerWidgetClass);
 		PlayerWidget->AddToViewport();
 	}
+	SniperCrosshairWidget = CreateWidget(this, SniperCrosshairClass);
+}
 
+void AFPSPlayerController::ShowSniperCrosshair()
+{
+	SniperCrosshairWidget->AddToViewport();
+}
+
+void AFPSPlayerController::DeshowSniperCrosshair()
+{
+	SniperCrosshairWidget->RemoveFromParent();
 }
