@@ -9,7 +9,8 @@
 
 // Sets default values for this component's properties
 UGunAbilities::UGunAbilities() :
-	IsReloading(false)
+	IsReloading(false),
+	bCanShoot(true)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -44,7 +45,7 @@ void UGunAbilities::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void UGunAbilities::Recoil(UCameraComponent* Camera, float MainDeltaTime)
 {
-	if (CurrentAmmo > 0 && !IsReloading)
+	if (CurrentAmmo > 0 && !IsReloading && bCanShoot)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Recoil")));
 
@@ -60,24 +61,59 @@ void UGunAbilities::Recoil(UCameraComponent* Camera, float MainDeltaTime)
 
 void UGunAbilities::Reload(UAnimInstance* HandMesh)
 {
-	if (!IsReloading)
-	{
-		FTimerHandle ReloadTimeHandle;
-		GetWorld()->GetTimerManager().SetTimer(ReloadTimeHandle, this, &UGunAbilities::ReloadFinish, ReloadTime, false);
-		UGameplayStatics::PlaySound2D(this, ReloadSound);
 
-		IsReloading = true;
+	CharacterHandMesh = HandMesh;
+
+	if (!IsReloading && CurrentMag > 0 && CurrentAmmo != MaxAmmo)
+	{
+
+		UGameplayStatics::PlaySound2D(this, ReloadSound);
 
 		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Reloading")));
 
+		IsReloading = true;
 
 		if (ReloadMontage)
 		{
-			HandMesh->Montage_Play(ReloadMontage);
-		}
+			FTimerHandle ReloadTimeHandle;
+			if (GunType != EGunType::ShotGun)
+			{
 
+				GetWorld()->GetTimerManager().SetTimer(ReloadTimeHandle, this, &UGunAbilities::ReloadFinish, ReloadTime, false);
+			}
+
+			HandMesh->Montage_Play(ReloadMontage);
+
+			if (GunType == EGunType::ShotGun)
+			{
+				CharacterHandMesh->Montage_Play(ReloadMontage);
+				GetWorld()->GetTimerManager().SetTimer(ShotGunReloadTimeHandle, this, &UGunAbilities::ReloadInsert, ReloadTime, true);
+			}
+		}
 	}
 
+}
+
+void UGunAbilities::CanShoot()
+{
+	bCanShoot = true;
+}
+
+void UGunAbilities::ReloadInsert()
+{
+	UGameplayStatics::PlaySound2D(this, ReloadInsertSound);
+	CharacterHandMesh->Montage_Play(ReloadInsertMontage);
+	if (CurrentAmmo == MaxAmmo)
+	{
+		ReloadFinish();
+		GetWorld()->GetTimerManager().PauseTimer(ShotGunReloadTimeHandle);
+		CharacterHandMesh->Montage_Play(ReloadCloseMontage);
+		
+		return;
+	}
+	
+	CurrentAmmo++;
+	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("s Finish")));
 }
 
 void UGunAbilities::ReloadFinish()
@@ -86,11 +122,16 @@ void UGunAbilities::ReloadFinish()
 	IsReloading = false;
 	CurrentMag--;
 	CurrentAmmo = MaxAmmo;
+
+	if (GunType == EGunType::ShotGun)
+	{
+		UGameplayStatics::PlaySound2D(this, ReloadCloseSound);
+	}
 }
 
 void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInstance, FVector MuzzleFlashLocation, FQuat4d MuzzleFlashQuat, bool IsAiming)
 {
-	if (CurrentAmmo > 0 && !IsReloading)
+	if (CurrentAmmo > 0 && !IsReloading && bCanShoot)
 	{
 		CurrentAmmo--;
 		FTransform MuzzleFlashTransform;
@@ -123,6 +164,16 @@ void UGunAbilities::Fire(FVector Start, FVector End, UAnimInstance* HandAnimInst
 		}
 
 		HandAnimInstance->Montage_Play(IsAiming ? AimFireMontage : FireMontage);
+
+
+		if (GunType == EGunType::ShotGun || GunType == EGunType::Pistol || GunType == EGunType::Sniper)
+		{
+			bCanShoot = false;
+
+			FTimerHandle Handle;
+
+			GetWorld()->GetTimerManager().SetTimer(Handle, this, &UGunAbilities::CanShoot, TimeToNextShoot, false);
+		}
 
 	}
 

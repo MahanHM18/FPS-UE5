@@ -34,6 +34,12 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound, meta = (AllowPrivateAccess = "true"))
 	class USoundBase* ReloadSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound, meta = (AllowPrivateAccess = "true"))
+	class USoundBase* ReloadInsertSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound, meta = (AllowPrivateAccess = "true"))
+	class USoundBase* ReloadCloseSound;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
 	class UAnimMontage* FireMontage;
 
@@ -42,6 +48,12 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
 	class UAnimMontage* ReloadMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
+	class UAnimMontage* ReloadInsertMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
+	class UAnimMontage* ReloadCloseMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
 	int MaxAmmo;
@@ -57,6 +69,11 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
 	USoundCue* ImapctSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties, meta = (AllowPrivateAccess = "true"))
+	UAnimInstance* CharacterHandMesh;
+
+	FTimerHandle ShotGunReloadTimeHandle;
+
 
 	void ReloadFinish();
 public:
@@ -70,10 +87,15 @@ public:
 	float FireRate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
+	float TimeToNextShoot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
 	float ReloadTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
 	EGunType GunType;
+
+	bool bCanShoot;
 
 public:
 	// Called every frame
@@ -85,6 +107,9 @@ public:
 
 	void Reload(class UAnimInstance* HandMesh);
 
+	void CanShoot();
+
+	void ReloadInsert();
 
 
 };

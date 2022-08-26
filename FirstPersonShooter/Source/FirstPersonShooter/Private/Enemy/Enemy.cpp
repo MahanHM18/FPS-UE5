@@ -131,7 +131,10 @@ void AEnemy::MoveToTarget(AFPSCharacter* Player)
 }
 
 void AEnemy::DecreaseDamage(float value)
-{
+{	
+	
+	Health -= value;
+
 	if (Health <= 0)
 	{
 		Die();
@@ -149,7 +152,7 @@ void AEnemy::DecreaseDamage(float value)
 
 
 
-	Health -= value;
+
 }
 
 void AEnemy::Die()

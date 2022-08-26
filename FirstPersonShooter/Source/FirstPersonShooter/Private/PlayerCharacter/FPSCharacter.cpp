@@ -244,8 +244,9 @@ void AFPSCharacter::Fire()
 		{
 			return;
 		}
-			Guns[CurrentGun]->GetGunAbility()->Fire(StartPoint, EndPoint, AnimInstance, Guns[CurrentGun]->GetFirePoint()->GetComponentLocation(), Guns[CurrentGun]->GetFirePoint()->GetComponentQuat(), IsAiming);
-			Guns[CurrentGun]->GetGunAbility()->Recoil(CameraFollow, MainDeltaTime);
+		Guns[CurrentGun]->GetGunAbility()->Recoil(CameraFollow, MainDeltaTime);
+		Guns[CurrentGun]->GetGunAbility()->Fire(StartPoint, EndPoint, AnimInstance, Guns[CurrentGun]->GetFirePoint()->GetComponentLocation(), Guns[CurrentGun]->GetFirePoint()->GetComponentQuat(), IsAiming);
+
 
 	}
 }
@@ -383,9 +384,6 @@ void AFPSCharacter::GetGun(AGun* Gun)
 
 	Gun->SetActorRelativeLocation(FVector(0, 0, 0));
 	Gun->SetActorRelativeRotation(FRotator(0, 0, 0));
-
-	CurrentGun = Guns.Num() - 1;
-	Guns[CurrentGun]->SetActorHiddenInGame(false);
 
 }
 

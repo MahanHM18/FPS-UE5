@@ -12,8 +12,8 @@ enum class EGunType : uint8
 {
 	Rifle = 0		UMETA(DisplayName = "Rifle"),
 	Pistol = 1		UMETA(DisplayName = "Pistol"),
-	Sniper = 2		UMETA(DisplayName = "Sniper")
-
+	Sniper = 2		UMETA(DisplayName = "Sniper"),
+	ShotGun = 3		UMETA(DisplayName = "ShutGun")
 };
 
 UENUM(BlueprintType)
