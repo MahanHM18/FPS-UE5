@@ -22,6 +22,7 @@
 #include "Weapons/GunAbilities.h"
 #include "FPSPlayerController.h"
 #include <Components/StaticMeshComponent.h>
+#include "GenericPlatform/GenericPlatformProcess.h"
 
 // Sets default values
 AFPSCharacter::AFPSCharacter() :
@@ -32,7 +33,8 @@ AFPSCharacter::AFPSCharacter() :
 	DefaultFOV(90.f),
 	AimInterpSpeed(5.f),
 	IsReloading(false),
-	CurrentGun(0)
+	CurrentGun(0),
+	bIsHolsing(false)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -79,6 +81,8 @@ void AFPSCharacter::BeginPlay()
 
 	BasicSetup();
 
+	bIsHolsing = false;
+
 }
 void AFPSCharacter::Tick(float DeltaTime)
 {
@@ -102,6 +106,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 	SwitchGunWithKeyboard();
 
 	MainDeltaTime = DeltaTime;
+
 
 
 
@@ -178,7 +183,7 @@ void AFPSCharacter::RunButtonReleased()
 
 void AFPSCharacter::AimButtonPressed()
 {
-	if (Guns.Num() > 0)
+	if (Guns.Num() > 0 && !bIsHolsing)
 	{
 		if (CurrentGunType == EGunType::Sniper)
 		{
@@ -210,7 +215,7 @@ void AFPSCharacter::AimButtonReleased()
 
 void AFPSCharacter::FireButtonPressed()
 {
-	if (Guns.Num() == 0)
+	if (Guns.Num() == 0 && bIsHolsing)
 		return;
 
 	Fire();
@@ -254,7 +259,7 @@ void AFPSCharacter::Fire()
 
 void AFPSCharacter::Reload()
 {
-	if (Guns.Num() > 0)
+	if (Guns.Num() > 0 && !bIsHolsing)
 	{
 		Guns[CurrentGun]->GetGunAbility()->Reload(HandMesh->GetAnimInstance());
 	}
@@ -264,14 +269,20 @@ void AFPSCharacter::Reload()
 
 void AFPSCharacter::SwitchGunWithKeyboard()
 {
-	if (PlayerController->WasInputKeyJustPressed(EKeys::One))
+	if (!bIsHolsing)
 	{
-		SwitchGun(0);
+		if (PlayerController->WasInputKeyJustPressed(EKeys::One))
+		{
+			SwitchGun(0);
+
+		}
+		if (PlayerController->WasInputKeyJustPressed(EKeys::Two) && Guns.Num() >= 2)
+		{
+			SwitchGun(1);
+
+		}
 	}
-	if (PlayerController->WasInputKeyJustPressed(EKeys::Two) && Guns.Num() >= 2)
-	{
-		SwitchGun(1);
-	}
+
 
 }
 
@@ -281,6 +292,7 @@ void AFPSCharacter::SwitchGun(int Index)
 	{
 		return;
 	}
+
 
 	if (Guns.Num() > 0)
 	{
@@ -297,19 +309,35 @@ void AFPSCharacter::SwitchGun(int Index)
 		MagMesh->SetStaticMesh(Guns[CurrentGun]->GetMagMesh());
 		CurrentGunType = Guns[CurrentGun]->GetGunAbility()->GunType;
 	}
-
 }
 
 void AFPSCharacter::SwitchWithScroller(float Value)
 {
-	CurrentGun += Value;
+	if (!bIsHolsing)
+	{
+		if (Value > 0 || Value < 0)
+		{
+			bIsHolsing = true;
+			CurrentGun += Value;
 
-	if (CurrentGun < 0)
-		CurrentGun = Guns.Num() - 1;
-	if (CurrentGun >= Guns.Num())
-		CurrentGun = 0;
+			if (CurrentGun < 0)
+				CurrentGun = Guns.Num() - 1;
+			if (CurrentGun >= Guns.Num())
+				CurrentGun = 0;
 
-	SwitchGun(CurrentGun);
+			FTimerHandle HolsterHandle;
+			FTimerHandle FinishHolsterHandle;
+			FTimerDelegate Delegate;
+
+			Delegate.BindUObject(this, &AFPSCharacter::SwitchGun, CurrentGun);
+
+			GetWorldTimerManager().SetTimer(HolsterHandle, Delegate, 0.4, false);
+			GetWorldTimerManager().SetTimer(FinishHolsterHandle, this, &AFPSCharacter::FinishHosling, 0.4, false);
+
+		}
+
+	}
+
 }
 
 void AFPSCharacter::ThrowGrenade()
@@ -366,6 +394,11 @@ void AFPSCharacter::BasicSetup()
 
 }
 
+void AFPSCharacter::FinishHosling()
+{
+	bIsHolsing = false;
+}
+
 void AFPSCharacter::GetGun(AGun* Gun)
 {
 	if (Gun == nullptr)
@@ -384,6 +417,12 @@ void AFPSCharacter::GetGun(AGun* Gun)
 
 	Gun->SetActorRelativeLocation(FVector(0, 0, 0));
 	Gun->SetActorRelativeRotation(FRotator(0, 0, 0));
+	if (Guns.Num() == 0)
+	{
+		CurrentGun = 0;
 
+	}
+
+	SwitchGun(CurrentGun);
 }
 

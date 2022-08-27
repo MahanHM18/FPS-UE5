@@ -47,6 +47,8 @@ protected:
 
 	void BasicSetup();
 
+	void FinishHosling();
+
 
 public:
 
@@ -129,9 +131,13 @@ private:
 
 	APlayerController* PlayerController;
 
+	
+
 
 public:
 	FORCEINLINE bool GetAiming() const { return IsAiming; }
+
+	FORCEINLINE bool GetHolster()  { return bIsHolsing; }
 
 	FORCEINLINE EGunType GetGunTpye() const { return CurrentGunType; }
 	
@@ -142,4 +148,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Guns, meta = (AllowPrivateAccess = "true"))
 	TArray<AGun*> Guns;
+	
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsHolsing;
 };
